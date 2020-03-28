@@ -4,6 +4,7 @@ public class VirtualMachine {
     private int IC;
     private int SF;
 
+    // TODO
     public VirtualMachine() {
 
     }

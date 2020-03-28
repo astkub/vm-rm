@@ -1,7 +1,7 @@
 
 
 public class CPU{
-    //TODO tikriausiai reikes perkelt i kita klase
+    //TODO: tikriausiai reikes perkelt i kita klase
     private String START = "$STR";
     private String END = "$END";
 
@@ -40,7 +40,7 @@ public class CPU{
         vm.setBA( vm.getBA() * vm.getBB() );
     }
     
-    //gal dar kaip parametra atminti paduot?
+    // NOTE: gal dar kaip parametra atminti paduot?
     public void ga(VirtualMachine vm, int x1, int x2){}
     public void gb(VirtualMachine vm, int x1, int x2){}
     public void sa(VirtualMachine vm, int x1, int x2){}
@@ -48,7 +48,7 @@ public class CPU{
     public void pr(VirtualMachine vm, int x1, int x2){}
     public void gd(VirtualMachine vm, int x1, int x2){}
 
-    //gal dar kaip parametra atminti paduot?
+    // NOTE: gal dar kaip parametra atminti paduot?
     public void dba(){}
     public void uba(){}
     public void loc(){}

@@ -11,7 +11,7 @@ public class Main {
             System.out.println(command);
             if(command.startsWith("load")){
                 command = command.substring(5).trim();
-                //TODO sukurti klase ir perkelti failo skaityma i ja
+                // TODO: sukurti klase ir perkelti failo skaityma i ja
                 BufferedReader fileReader = new BufferedReader(new FileReader(command));
                 while(fileReader.ready()){
                     String currentLine = fileReader.readLine();
@@ -19,7 +19,7 @@ public class Main {
                         continue;
                     }
                     System.out.println(currentLine);
-                    //TODO komandu vykdymas
+                    // TODO: komandu vykdymas
                 }
                 fileReader.close();
             }

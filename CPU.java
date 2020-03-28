@@ -1,6 +1,7 @@
 
 
 public class CPU{
+    //TODO tikriausiai reikes perkelt i kita klase
     private String START = "$STR";
     private String END = "$END";
 
@@ -26,25 +27,41 @@ public class CPU{
     private String HALT = "HALT";
     private String JMx1x2 = "JM";
 
-    //TODO tikriausiai reikes perkelt i kita klase
-    public void add0(){}
-    public void sub0(){}
-    public void mul0(){}
-    public void div0(){}
+    public void add0(VirtualMachine vm){
+        vm.setBA( vm.getBA() + vm.getBB() );
+    }
+    public void sub0(VirtualMachine vm){
+        vm.setBA( vm.getBA() - vm.getBB() );
+    }
+    public void mul0(VirtualMachine vm){
+        vm.setBA( vm.getBA() * vm.getBB() );
+    }
+    public void div0(VirtualMachine vm){
+        vm.setBA( vm.getBA() * vm.getBB() );
+    }
+    
+    //gal dar kaip parametra atminti paduot?
+    public void ga(VirtualMachine vm, int x1, int x2){}
+    public void gb(VirtualMachine vm, int x1, int x2){}
+    public void sa(VirtualMachine vm, int x1, int x2){}
+    public void sb(VirtualMachine vm, int x1, int x2){}
+    public void pr(VirtualMachine vm, int x1, int x2){}
+    public void gd(VirtualMachine vm, int x1, int x2){}
 
-    public void ga(){}
-    public void gb(){}
-    public void sa(){}
-    public void sb(){}
-    public void pr(){}
-    public void gd(){}
-
+    //gal dar kaip parametra atminti paduot?
     public void dba(){}
     public void uba(){}
     public void loc(){}
     public void unl(){}
 
-    public void CMP(){}
+    public void CMP(VirtualMachine vm){
+        if(vm.getBA() == vm.getBB())
+            vm.setSF(0);
+        else if(vm.getBA() > vm.getBB())
+            vm.setSF(1);
+        else if(vm.getBA() < vm.getBB())
+            vm.setSF(2);
+    }
 
     public void halt(){}
     public void jm(){}

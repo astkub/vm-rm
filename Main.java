@@ -19,6 +19,7 @@ public class Main {
                         continue;
                     }
                     System.out.println(currentLine);
+                    //TODO komandu vykdymas
                 }
                 fileReader.close();
             }

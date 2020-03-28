@@ -26,4 +26,28 @@ public class CPU{
     private String HALT = "HALT";
     private String JMx1x2 = "JM";
 
+    //TODO tikriausiai reikes perkelt i kita klase
+    public void add0(){}
+    public void sub0(){}
+    public void mul0(){}
+    public void div0(){}
+
+    public void ga(){}
+    public void gb(){}
+    public void sa(){}
+    public void sb(){}
+    public void pr(){}
+    public void gd(){}
+
+    public void dba(){}
+    public void uba(){}
+    public void loc(){}
+    public void unl(){}
+
+    public void CMP(){}
+
+    public void halt(){}
+    public void jm(){}
+
+
 }

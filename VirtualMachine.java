@@ -14,17 +14,18 @@ public class VirtualMachine {
 
     public void excecuteCommand(String command){
         //System.out.println(command);
+        cpu.clearParameters();
         int commandKey = cpu.findCommand(command);
-        // TODO: parseCommand(command, commandKey)
-        //cpu.callCommand();
+        cpu.parseCommand(command, commandKey);
+        cpu.callCommand(commandKey, this);
     }
 
-    //TODO: patikrint ar gerai veikia
+    // TODO: patikrint ar gerai veikia
     public void writeToMemory(Word word, int address){
         memory.write(word, address);
     }
 
-    //TODO: patikrint ar gerai veikia
+    // TODO: patikrint ar gerai veikia
     public Word readFromMemory(int address){
         return memory.read(address);
     }

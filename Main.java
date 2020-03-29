@@ -14,15 +14,15 @@ public class Main {
             String command = reader.readLine();
             System.out.println(command);
             if(command.startsWith("load")){
-                command = command.substring(5).trim();
+                String fileName = command.substring(5).trim();
                 // TODO: sukurti klase ir perkelti failo skaityma i ja
-                BufferedReader fileReader = new BufferedReader(new FileReader(command));
+                BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
                 while(fileReader.ready()){
                     String currentLine = fileReader.readLine();
                     if(currentLine.isEmpty()){
                         continue;
                     }
-                    //System.out.println(currentLine);
+                    System.out.println(currentLine);
                     // TODO: komandu atpazinimas ir vykdymas
                     virtualMachine.excecuteCommand(currentLine);
                 }

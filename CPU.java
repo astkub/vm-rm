@@ -83,7 +83,7 @@ public class CPU{
                 div0(vm);
                 break;
             case CMP:
-                CMP(vm);
+                cmp(vm);
                 break;
             default:
                 break;
@@ -116,45 +116,72 @@ public class CPU{
     }
 
     public void add0(VirtualMachine vm){
+        System.out.println("add0(VirtualMachine vm)");
         vm.setBA( vm.getBA() + vm.getBB() );
     }
     public void sub0(VirtualMachine vm){
+        System.out.println("sub0(VirtualMachine vm)");
         vm.setBA( vm.getBA() - vm.getBB() );
     }
     public void mul0(VirtualMachine vm){
+        System.out.println("mul0(VirtualMachine vm)");
         vm.setBA( vm.getBA() * vm.getBB() );
     }
     public void div0(VirtualMachine vm){
+        System.out.println("div0(VirtualMachine vm)");
         vm.setBA( vm.getBA() * vm.getBB() );
     }
 
     public void ga(VirtualMachine vm, int x1, int x2){
+        System.out.println("ga(VirtualMachine vm, int x1, int x2)");
         Word word = vm.readFromMemory(16 * x1 + x2);
         vm.setBA(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
     }
     public void gb(VirtualMachine vm, int x1, int x2){
+        System.out.println("gb(VirtualMachine vm, int x1, int x2)");
         Word word = vm.readFromMemory(16 * x1 + x2);
         vm.setBB(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
     }
     public void sa(VirtualMachine vm, int x1, int x2){
+        System.out.println("sa(VirtualMachine vm, int x1, int x2)");
         int wrd = vm.getBA();
         Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
         vm.writeToMemory(word, 16 * x1 + x2);
     }
     public void sb(VirtualMachine vm, int x1, int x2){
+        System.out.println("sb(VirtualMachine vm, int x1, int x2)");
         int wrd = vm.getBB();
         Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
         vm.writeToMemory(word, 16 * x1 + x2);
     }
-    public void pr(VirtualMachine vm, int x1, int x2){}
-    public void gd(VirtualMachine vm, int x1, int x2){}
+    public void pr(VirtualMachine vm, int x1, int x2){
+        System.out.println("pr(VirtualMachine vm, int x1, int x2)");
+        // TODO
+    }
+    public void gd(VirtualMachine vm, int x1, int x2){
+        System.out.println("gd(VirtualMachine vm, int x1, int x2)");
+        // TODO
+    }
 
-    public void dba(int x){} // TODO: add to callCommand
-    public void uba(int x){} // TODO: add to callCommand
-    public void loc(int x){} // TODO: add to callCommand
-    public void unl(int x){} // TODO: add to callCommand
+    public void dba(int x){ // TODO: add to callCommand
+        System.out.println("dba(int x)");
+        // TODO
+    } 
+    public void uba(int x){ // TODO: add to callCommand
+        System.out.println("uba(int x)");
+        // TODO
+    }
+    public void loc(int x){ // TODO: add to callCommand
+        System.out.println("loc(int x)");
+        // TODO
+    }
+    public void unl(int x){ // TODO: add to callCommand
+        System.out.println("unl(int x)");
+        // TODO
+    }
 
-    public void CMP(VirtualMachine vm){
+    public void cmp(VirtualMachine vm){
+        System.out.println("cmp(int x)");
         if(vm.getBA() == vm.getBB())
             vm.setSF(0);
         else if(vm.getBA() > vm.getBB())
@@ -163,8 +190,14 @@ public class CPU{
             vm.setSF(2);
     }
 
-    public void halt(){} // TODO: add to callCommand
-    public void jm(int x1, int x2){} // TODO: add to callCommand
+    public void halt(){ // TODO: add to callCommand
+        System.out.println("halt()");
+        // TODO
+    }
+    public void jm(int x1, int x2){ // TODO: add to callCommand
+        System.out.println("jm(int x1, int x2)");
+        // TODO
+    }
 
     public String getCommandByKey(int key){
         return commandsHashMap.get(key);

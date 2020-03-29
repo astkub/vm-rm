@@ -15,6 +15,8 @@ public class VirtualMachine {
     public void excecuteCommand(String command){
         //System.out.println(command);
         int commandKey = cpu.findCommand(command);
+        // TODO: parseCommand(command, commandKey)
+        //cpu.callCommand();
     }
 
     //TODO: patikrint ar gerai veikia

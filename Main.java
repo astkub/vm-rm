@@ -22,8 +22,8 @@ public class Main {
                     if(currentLine.isEmpty()){
                         continue;
                     }
-                    System.out.println(currentLine);
-                    // TODO: komandu vykdymas
+                    //System.out.println(currentLine);
+                    // TODO: komandu atpazinimas ir vykdymas
                     virtualMachine.excecuteCommand(currentLine);
                 }
                 fileReader.close();

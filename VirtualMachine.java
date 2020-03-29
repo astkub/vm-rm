@@ -1,4 +1,7 @@
 public class VirtualMachine {
+    private CPU cpu = new CPU();
+    private RealMemory memory;
+    private int memorySize = 100;
     private int BA;
     private int BB;
     private int IC;
@@ -6,7 +9,21 @@ public class VirtualMachine {
 
     // TODO
     public VirtualMachine() {
+        this.memory = new RealMemory(memorySize);
+    }
 
+    public void excecuteCommand(String command){
+        System.out.println(command.charAt(0));
+    }
+
+    //TODO: patikrint ar gerai veikia
+    public void writeToMemory(Word word, int address){
+        memory.write(word, address);
+    }
+
+    //TODO: patikrint ar gerai veikia
+    public Word readFromMemory(int address){
+        return memory.read(address);
     }
 
     public int getSF() {

@@ -5,6 +5,10 @@ import java.io.InputStreamReader;
 
 public class Main {
     public static void main(String[] args) {
+        VirtualMachine virtualMachine = new VirtualMachine();
+
+        System.out.println("Possible commands:\nload [file_name]");
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             String command = reader.readLine();
@@ -20,6 +24,7 @@ public class Main {
                     }
                     System.out.println(currentLine);
                     // TODO: komandu vykdymas
+                    virtualMachine.excecuteCommand(currentLine);
                 }
                 fileReader.close();
             }

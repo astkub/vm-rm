@@ -39,20 +39,34 @@ public class CPU{
     public void div0(VirtualMachine vm){
         vm.setBA( vm.getBA() * vm.getBB() );
     }
-    
-    // NOTE: gal dar kaip parametra atminti paduot?
-    public void ga(VirtualMachine vm, int x1, int x2){}
-    public void gb(VirtualMachine vm, int x1, int x2){}
-    public void sa(VirtualMachine vm, int x1, int x2){}
-    public void sb(VirtualMachine vm, int x1, int x2){}
+
+    public void ga(VirtualMachine vm, int x1, int x2){
+        Word word = vm.readFromMemory(16 * x1 + x2);
+        vm.setBA(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
+    }
+    public void gb(VirtualMachine vm, int x1, int x2){
+        Word word = vm.readFromMemory(16 * x1 + x2);
+        vm.setBB(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
+    }
+    public void sa(VirtualMachine vm, int x1, int x2){
+        int wrd = vm.getBA();
+        Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
+        vm.writeToMemory(word, 16 * x1 + x2);
+    }
+    public void sb(VirtualMachine vm, int x1, int x2){
+        int wrd = vm.getBB();
+        Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
+        vm.writeToMemory(word, 16 * x1 + x2);
+    }
     public void pr(VirtualMachine vm, int x1, int x2){}
     public void gd(VirtualMachine vm, int x1, int x2){}
 
-    // NOTE: gal dar kaip parametra atminti paduot?
-    public void dba(){}
-    public void uba(){}
-    public void loc(){}
-    public void unl(){}
+    public void dba(){
+
+    }
+    public void uba(int x){}
+    public void loc(int x){}
+    public void unl(int x){}
 
     public void CMP(VirtualMachine vm){
         if(vm.getBA() == vm.getBB())
@@ -64,7 +78,7 @@ public class CPU{
     }
 
     public void halt(){}
-    public void jm(){}
+    public void jm(int x1, int x2){}
 
 
 }

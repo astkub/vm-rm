@@ -2,10 +2,10 @@ public class VirtualMachine {
     private CPU cpu = new CPU();
     private RealMemory memory;
     private int memorySize = 100;
-    private int BA;
-    private int BB;
-    private int IC;
-    private int SF;
+    //private int BA;
+    //private int BB;
+    //private int IC;
+    //private int SF;
 
     // TODO
     public VirtualMachine() {
@@ -31,34 +31,34 @@ public class VirtualMachine {
     }
 
     public int getSF() {
-        return SF;
+        return cpu.getSF();
     }
 
     public void setSF(int sF) {
-        this.SF = sF;
+        cpu.setSF(sF);
     }
 
     public int getIC() {
-        return IC;
+        return cpu.getIC();
     }
 
     public void setIC(int iC) {
-        this.IC = iC;
+        cpu.setIC(iC);
     }
 
     public int getBB() {
-        return BB;
+        return cpu.getBB();
     }
 
     public void setBB(int bB) {
-        this.BB = bB;
+        cpu.setBB(bB);
     }
 
     public int getBA() {
-        return BA;
+        return cpu.getBA();
     }
 
     public void setBA(int bA) {
-        this.BA = bA;
+        cpu.setBA(bA);
     }
 }

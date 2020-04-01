@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class CPU{
+public class CPU {
 
     private HashMap<Integer, String> commandsHashMap = new HashMap<Integer, String>();
 
@@ -9,7 +9,7 @@ public class CPU{
     private int x = -1, x1 = -1, x2 = -1;
     private int parameterLength = 1;
 
-    //TODO: tikriausiai reikes perkelt i kita klase
+    // TODO: tikriausiai reikes perkelt i kita klase
     private String START = "$STR";
     private String END = "$END";
 
@@ -35,7 +35,30 @@ public class CPU{
     private final int HALT = 16;
     private final int JMx1x2 = 17;
 
-    public CPU(){
+    private int BA;
+    private int BB;
+    private int BC;
+    private int IC;
+    private int SF;
+    private int S;
+    private int MODE;
+    private int PTR;
+    private int SPTR;
+    private int TI;
+    private int SI;
+    private int PI;
+    private int CH1;
+    private int CH2;
+    private int CH3;
+    //private static final int TIME = 20;
+    public static final int SUPERVISOR = 0;
+    public static final int USER = 1;
+
+    public CPU() {
+        BA = 0;
+        BB = 0;
+        BC = 0;//TODO add more
+
         commandsHashMap.put(ADD0, "ADD0");
         commandsHashMap.put(SUB0, "SUB0");
         commandsHashMap.put(MUL0, "MUL0");
@@ -59,6 +82,7 @@ public class CPU{
         commandsHashMap.put(JMx1x2, "JM");
     }
 
+    
     // finds command and returns commandHashMap key
     public int findCommand(String unknownCommand){
         //System.out.println("unknownCommand: " + unknownCommand);
@@ -317,5 +341,126 @@ HALT JMx1x2
         x1 = -1;
         x2 = -1;
     }
+
+    public int getCH3() {
+        return CH3;
+    }
+
+    public void setCH3(int cH3) {
+        this.CH3 = cH3;
+    }
+
+    public int getCH2() {
+        return CH2;
+    }
+
+    public void setCH2(int cH2) {
+        this.CH2 = cH2;
+    }
+
+    public int getCH1() {
+        return CH1;
+    }
+
+    public void setCH1(int cH1) {
+        this.CH1 = cH1;
+    }
+
+    public int getPI() {
+		return PI;
+	}
+
+	public void setPI(int pI) {
+		this.PI = pI;
+	}
+
+	public int getSI() {
+		return SI;
+	}
+
+	public void setSI(int sI) {
+		this.SI = sI;
+	}
+
+	public int getTI() {
+        return TI;
+    }
+
+    public void setTI(int tI) {
+        this.TI = tI;
+    }
+
+    public int getSPTR() {
+        return SPTR;
+    }
+
+    public void setSPTR(int sPTR) {
+        this.SPTR = sPTR;
+    }
+
+    public int getPTR() {
+        return PTR;
+    }
+
+    public void setPTR(int pTR) {
+        this.PTR = pTR;
+    }
+
+    public int getMODE() {
+        return MODE;
+    }
+
+    public void setMODE(int mODE) {
+        this.MODE = mODE;
+    }
+
+    public int getS() {
+		return S;
+	}
+
+	public void setS(int s) {
+		this.S = s;
+	}
+
+	public int getSF() {
+		return SF;
+	}
+
+	public void setSF(int sF) {
+		this.SF = sF;
+	}
+
+	public int getIC() {
+        return IC;
+    }
+
+    public void setIC(int iC) {
+        this.IC = iC;
+    }
+
+    public int getBC() {
+        return BC;
+    }
+
+    public void setBC(int bC) {
+        this.BC = bC;
+    }
+
+    public int getBB() {
+        return BB;
+    }
+
+    public void setBB(int bB) {
+        this.BB = bB;
+    }
+
+    public int getBA() {
+        return BA;
+    }
+
+    public void setBA(int bA) {
+        this.BA = bA;
+    }
+
 
 }

@@ -31,7 +31,7 @@ public class MemoryTable {
     public void setAllocated(int index, boolean value) {// throws MemoryException{
         table[index] = value;
         Word wordWithNeededBit = memory.read(address + (index / (Word.SIZE * 8))); // kodel cia padaugina iš 8 ir tada
-                                                                                   // sekančiam padalina iš 8?
+                                                                                   // sekanciam padalina is 8?
         byte byteWithNeededBit = wordWithNeededBit.getByte((index % (Word.SIZE * 8)) / 8);
         if (value) {
             byteWithNeededBit = (byte) (byteWithNeededBit | (1 << (index % 8)));

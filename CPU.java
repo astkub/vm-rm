@@ -264,6 +264,7 @@ HALT JMx1x2
     }
     public void pr(VirtualMachine vm, int x1, int x2){
         System.out.println("pr(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
+        System.out.println(new Word().wordToInt(vm.readFromMemory(16 * x1 + x2)));
         // TODO
     }
     public void gd(VirtualMachine vm, int x1, int x2){

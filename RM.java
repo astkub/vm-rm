@@ -3,30 +3,59 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Random;
 
 public class RM {
     private CPU cpu;
-    private RealMemory memory;
+    //private RealMemory memory;
+    private Word memory[];
 
     //private RealMemory realMemory;
     //public final static int SWAP_SIZE = 2; // blocks //not sure what this is
 
-    private final int BLOCKSIZE = 16;
-    private final int supervisorMemorySize = BLOCKSIZE * 10; // NOTE: idk what size this is
+    private final int BLOCKSIZE = 16; // words
     private final int userMemorySize = BLOCKSIZE * 80;
     private final int externalMemorySize = BLOCKSIZE * 50;
 
     private final int SUPERVISOR = 0;
     private final int USER = 1;
+
+    // VM skiriama 16 bloku. Vartotojo atmintis:
+    // [ (VM 1)(VM 2)(VM 3)(VM 4)(puslapiu lentele) ]
     
     public RM() {
         cpu = new CPU();
         cpu.setMODE(SUPERVISOR);
-        memory = new RealMemory(supervisorMemorySize, userMemorySize, externalMemorySize);
+        memory = new Word[userMemorySize + externalMemorySize];
+        for (int i = 0; i < userMemorySize + externalMemorySize; i++){
+            memory[i] = new Word();
+        }
+        int ptr = 4 * 16;
+        cpu.setPTR(ptr);
+        createTable();
+        //memory = new RealMemory(supervisorMemorySize, userMemorySize, externalMemorySize);
     }
 
+    public void createTable(){
+        int ptr = cpu.getPTR();
+        for (int i = ptr; i < ptr + 16 * BLOCKSIZE; i++){
+            memory[i] = new Word().intToWord(i);//getRandomNumberInRange(0, ptr-1));
+            //System.out.println("memory[" + i + "] = " + new Word().wordToInt(memory[i]));
+        }
+    }
+
+    private int getRandomNumberInRange(int min, int max) {
+
+		if (min >= max) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
+	}
+
     public void loadProgram(String fileName){
-        VirtualMachine virtualMachine = new VirtualMachine(memory.getUserMemory(), cpu);
+        VirtualMachine virtualMachine = new VirtualMachine(memory, cpu);
 
         try{
             BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
@@ -38,7 +67,7 @@ public class RM {
                     continue;
                 }
                 System.out.println(currentLine);
-                virtualMachine.excecuteCommand(currentLine);
+                memory = virtualMachine.excecuteCommand(currentLine);
                 cpu.setMODE(SUPERVISOR);
                 processInterrupt();
             }

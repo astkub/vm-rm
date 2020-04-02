@@ -1,30 +1,46 @@
 public class VirtualMachine {
     private CPU cpu;
-    private Memory memory;
+    //private Memory memory;
+    private Word memory[];
 
 
     // TODO
-    public VirtualMachine(Memory memory, CPU cpu) {
+    public VirtualMachine(Word memory[], CPU cpu) {
         this.memory = memory;
         this.cpu = cpu;
         cpu.clearParameters();
     }
 
-    public void excecuteCommand(String command){
+    public Word[] excecuteCommand(String command){
         //System.out.println(command);
         int commandKey = cpu.findCommand(command);
         cpu.parseCommand(command, commandKey);
         cpu.callCommand(commandKey, this);
+        return memory;
     }
 
     // TODO: patikrint ar gerai veikia
-    public void writeToMemory(Word word, int address){
-        memory.write(word, address);
+    public void writeToMemory(Word word, int x, int y){
+        //memory.write(word, address);
+        int ptr = cpu.getPTR();
+        int a0 = ptr / 16;
+        int a1 = ptr % 16;
+        int tmp = new Word().wordToInt(memory[16 * (16 * a0 + a1) + x]);//System.out.println(tmp);
+        tmp = new Word().wordToInt(memory[tmp]);//System.out.println(tmp);
+        memory[10 * tmp + y] = word;
+        System.out.println("Writing memory[" + 10 * tmp + y + "] = " + new Word().wordToInt(memory[10 * tmp + y]));
     }
 
     // TODO: patikrint ar gerai veikia
-    public Word readFromMemory(int address){
-        return memory.read(address);
+    public Word readFromMemory(int x, int y){
+        //return memory.read(address);
+        int ptr = cpu.getPTR();
+        int a0 = ptr / 16;
+        int a1 = ptr % 16;
+        int tmp = new Word().wordToInt(memory[16 * (16 * a0 + a1) + x]);//System.out.println(tmp);
+        tmp = new Word().wordToInt(memory[tmp]);//System.out.println(tmp);
+        System.out.println("Reading memory[" + 10 * tmp + y + "] = " + new Word().wordToInt(memory[10 * tmp + y]));
+        return memory[10 * tmp + y];
     }
 
     public int getSF() {

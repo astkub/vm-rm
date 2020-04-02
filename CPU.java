@@ -284,29 +284,29 @@ public class CPU {
 
     public void ga(VirtualMachine vm, int x1, int x2){
         System.out.println("ga(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
-        Word word = vm.readFromMemory(16 * x1 + x2);
+        Word word = vm.readFromMemory(x1, x2);
         vm.setBA(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
     }
     public void gb(VirtualMachine vm, int x1, int x2){
         System.out.println("gb(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
-        Word word = vm.readFromMemory(16 * x1 + x2);
+        Word word = vm.readFromMemory(x1, x2);
         vm.setBB(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
     }
     public void sa(VirtualMachine vm, int x1, int x2){
         System.out.println("sa(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         int wrd = vm.getBA();
         Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
-        vm.writeToMemory(word, 16 * x1 + x2);
+        vm.writeToMemory(word, x1, x2);
     }
     public void sb(VirtualMachine vm, int x1, int x2){
         System.out.println("sb(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         int wrd = vm.getBB();
         Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
-        vm.writeToMemory(word, 16 * x1 + x2);
+        vm.writeToMemory(word, x1, x2);
     }
     public void pr(VirtualMachine vm, int x1, int x2){
         System.out.println("pr(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
-        System.out.println(new Word().wordToInt(vm.readFromMemory(16 * x1 + x2)));
+        System.out.println(new Word().wordToInt(vm.readFromMemory(x1, x2)));
         // TODO: SI = 2;
         // TODO: CH2 = 0;
         // bet turi but klaidu apdorojimas, kokia klaida gali but su println()?
@@ -324,7 +324,7 @@ public class CPU {
             int inputInt = Integer.parseInt(inputString);
             Word inputWord = new Word().intToWord(inputInt);
 
-            vm.writeToMemory(inputWord, 16 * x1 + x2);
+            vm.writeToMemory(inputWord, x1, x2);
         } catch (IOException e) {
             SI = 1;
             CH1 = 0;

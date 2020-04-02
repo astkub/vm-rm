@@ -1,5 +1,37 @@
-public interface Memory{
-    public Word read(int address);// throws MemoryException;
-    public void write(Word word, int address);// throws MemoryException;
-    public int getSize();
+
+import java.util.Arrays;
+
+public class Memory{
+    private int size; //words
+    private Word[] memory; // word = 4 bytes
+    
+    public Memory(int size){
+        if(size >= 0){
+           this.size = size;
+           memory = new Word[size];
+           for(int i = 0; i < size; i++){
+               memory[i] = new Word();
+           }
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+    
+    @Override
+    public Word read(int address){
+        return memory[address].clone();
+    }
+    @Override
+    public void write(Word word, int address){
+        memory[address] = word.clone();
+    }
+
+    @Override
+    public int getSize() {
+        return size;
+    }
+    
+    public Word[] viewData(){
+        return Arrays.copyOf(memory, size);
+    }
 }

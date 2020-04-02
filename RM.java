@@ -2,22 +2,35 @@ import java.util.Arrays;
 
 public class RM {
     private CPU cpu;
-    private RealMemory realMemory;
-    private RealMemory externalMemory;
+    private RealMemory memory;
 
-    public final static int SWAP_SIZE = 2; // blocks //not sure what this is
+    //private RealMemory realMemory;
+    //public final static int SWAP_SIZE = 2; // blocks //not sure what this is
 
-    private final int supervisorSize = 160; // words (10 blocks)
-    private final int userMemory = 1280; // words (80 blocks)
     private final int BLOCKSIZE = 16;
-    private final int outerMemory = 800; // words (50 blocks)
+    private final int supervisorMemorySize = BLOCKSIZE * 10; // NOTE: idk what size this is
+    private final int userMemorySize = BLOCKSIZE * 80;
+    private final int externalMemorySize = BLOCKSIZE * 50;
+    
 
     public RM() {
         cpu = new CPU();
-        realMemory = new RealMemory(BLOCKSIZE * (supervisorSize + userMemory));
-        // mmu = new MMU(cpu, realMemory, this, BLOCKSIZE*SWAP_SIZE);
-        // cpu.setMMU(mmu);
-        externalMemory = new RealMemory(BLOCKSIZE * SWAP_SIZE);
+        memory = new Memory(supervisorMemorySize, userMemorySize, externalMemorySize);
+    }
+
+    public void loadProgram(String filename){
+        VirtualMachine virtualMachine = new VirtualMachine(new RealMemory(mem))
+        BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
+        while(fileReader.ready()){
+            String currentLine = fileReader.readLine();
+            if(currentLine.isEmpty()){
+                continue;
+            }
+            System.out.println(currentLine);
+            // TODO: komandu atpazinimas ir vykdymas
+            virtualMachine.excecuteCommand(currentLine);
+        }
+        fileReader.close();
     }
     /*
      * private int newVM() throws MemoryException { int lastMode = cpu.getMODE();

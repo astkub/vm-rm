@@ -1,27 +1,26 @@
-
 import java.util.Arrays;
 
-public class RealMemory implements Memory{
+public class RealMemory{
     private int size; //words
-    private Word[] memory;
+    private Word[] memory; // word = 4 bytes
+
+    private Memory supervisorMemory;
+    private Memory userMemory;
+    private Memory externalMemory;
+
+    private final int BLOCKSIZE = 16;
+    private int supervisorMemorySize = BLOCKSIZE * 10; // NOTE: idk what size this is
+    private int userMemorySize = BLOCKSIZE * 80;
+    private int externalMemorySize = BLOCKSIZE * 50;
     
-    public RealMemory(int size){
-        if(size >= 0){
-           this.size = size;
-           memory = new Word[size];
-           for(int i = 0; i < size; i++){
-               memory[i] = new Word();
-           }
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
-    
-    public RealMemory(RealMemory mem){
-        if(mem == null)
-            throw new IllegalArgumentException();
-        size = mem.size;
-        
+    public RealMemory(int supervisorSize, int userSize, int externalSize){
+        this.supervisorMemorySize = supervisorSize;
+        this.userMemorySize = userSize;
+        this.externalMemorySize = externalSize;
+
+        supervisorMemory = new RealMemory(supervisorMemorySize);
+        userMemory = new RealMemory(userMemorySize);
+        externalMemory = new RealMemory(externalMemorySize);
     }
     
     @Override

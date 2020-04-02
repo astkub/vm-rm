@@ -8,8 +8,8 @@ public class VirtualMachine {
     //private int SF;
 
     // TODO
-    public VirtualMachine() {
-        this.memory = new RealMemory(memorySize);
+    public VirtualMachine(RealMemory rm) {
+        this.memory = rm;
     }
 
     public void excecuteCommand(String command){

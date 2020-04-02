@@ -300,7 +300,7 @@ HALT JMx1x2
             int inputLength = inputString.length();
             if(inputLength >= 16)
                 inputString.substring(0, 16).trim(); // nukertam gala, jei daugiau nei 16 simboliu
-                
+
             int inputInt = Integer.parseInt(inputString);
             Word inputWord = new Word().intToWord(inputInt);
 
@@ -309,7 +309,6 @@ HALT JMx1x2
             System.out.println("BufferedReader exception.");
             e.printStackTrace();
         }
-        // TODO
     }
 
     public void dba(int x){ // TODO: add to callCommand

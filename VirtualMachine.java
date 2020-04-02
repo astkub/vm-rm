@@ -1,6 +1,6 @@
 public class VirtualMachine {
     private CPU cpu = new CPU();
-    private RealMemory memory;
+    private Memory memory;
     private int memorySize = 100;
     //private int BA;
     //private int BB;
@@ -8,7 +8,7 @@ public class VirtualMachine {
     //private int SF;
 
     // TODO
-    public VirtualMachine(RealMemory rm) {
+    public VirtualMachine(Memory rm) {
         this.memory = rm;
     }
 

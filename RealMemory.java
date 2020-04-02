@@ -18,21 +18,23 @@ public class RealMemory{
         this.userMemorySize = userSize;
         this.externalMemorySize = externalSize;
 
-        supervisorMemory = new RealMemory(supervisorMemorySize);
-        userMemory = new RealMemory(userMemorySize);
-        externalMemory = new RealMemory(externalMemorySize);
+        supervisorMemory = new Memory(supervisorMemorySize);
+        userMemory = new Memory(userMemorySize);
+        externalMemory = new Memory(externalMemorySize);
+    }
+
+    public Memory getUserMemory(){
+        return userMemory;
     }
     
-    @Override
     public Word read(int address){
         return memory[address].clone();
     }
-    @Override
+
     public void write(Word word, int address){
         memory[address] = word.clone();
     }
 
-    @Override
     public int getSize() {
         return size;
     }

@@ -15,6 +15,7 @@ public class Main {
             System.out.println(command);
             if(command.startsWith("load")){
                 String fileName = command.substring(5).trim();
+                rm.loadProgram(fileName);
                 // TODO: sukurti klase ir perkelti failo skaityma i ja
                 
             }

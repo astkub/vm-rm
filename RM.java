@@ -1,4 +1,8 @@
 import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class RM {
     private CPU cpu;
@@ -15,22 +19,28 @@ public class RM {
 
     public RM() {
         cpu = new CPU();
-        memory = new Memory(supervisorMemorySize, userMemorySize, externalMemorySize);
+        memory = new RealMemory(supervisorMemorySize, userMemorySize, externalMemorySize);
     }
 
-    public void loadProgram(String filename){
-        VirtualMachine virtualMachine = new VirtualMachine(new RealMemory(mem))
-        BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
-        while(fileReader.ready()){
-            String currentLine = fileReader.readLine();
-            if(currentLine.isEmpty()){
-                continue;
+    public void loadProgram(String fileName){
+        VirtualMachine virtualMachine = new VirtualMachine(memory.getUserMemory());
+
+        try{
+            BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
+
+            while(fileReader.ready()){
+                String currentLine = fileReader.readLine();
+                if(currentLine.isEmpty()){
+                    continue;
+                }
+                System.out.println(currentLine);
+                virtualMachine.excecuteCommand(currentLine);
             }
-            System.out.println(currentLine);
-            // TODO: komandu atpazinimas ir vykdymas
-            virtualMachine.excecuteCommand(currentLine);
+            fileReader.close();
+        } catch (IOException e) {
+            System.out.println("BufferedReader exception.");
+            e.printStackTrace();
         }
-        fileReader.close();
     }
     /*
      * private int newVM() throws MemoryException { int lastMode = cpu.getMODE();
@@ -40,21 +50,21 @@ public class RM {
      * ptr)); mmu.write(Word.intToWord(Word.wordToInt(mmu.read(vmCountAddress))+1),
      * vmCountAddress); cpu.setMODE(lastMode); return i; }
      */
-
+/*
     public Word[] viewRealMemory() {
         return realMemory.viewData();
     }
 
     public Word[] viewExternalMemory() {
         return externalMemory.viewData();
-    }
+    }*/
 
     public CPU getCPU() {
         return cpu;
     }
-
+/*
     public int getSupervisorSize() {
         return supervisorSize;
-    }
+    }*/
 
 }

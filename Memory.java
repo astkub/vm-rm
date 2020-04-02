@@ -17,16 +17,14 @@ public class Memory{
         }
     }
     
-    @Override
     public Word read(int address){
         return memory[address].clone();
     }
-    @Override
+
     public void write(Word word, int address){
         memory[address] = word.clone();
     }
 
-    @Override
     public int getSize() {
         return size;
     }

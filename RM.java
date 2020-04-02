@@ -15,31 +15,85 @@ public class RM {
     private final int supervisorMemorySize = BLOCKSIZE * 10; // NOTE: idk what size this is
     private final int userMemorySize = BLOCKSIZE * 80;
     private final int externalMemorySize = BLOCKSIZE * 50;
-    
 
+    private final int SUPERVISOR = 0;
+    private final int USER = 1;
+    
     public RM() {
         cpu = new CPU();
+        cpu.setMODE(SUPERVISOR);
         memory = new RealMemory(supervisorMemorySize, userMemorySize, externalMemorySize);
     }
 
     public void loadProgram(String fileName){
-        VirtualMachine virtualMachine = new VirtualMachine(memory.getUserMemory());
+        VirtualMachine virtualMachine = new VirtualMachine(memory.getUserMemory(), cpu);
 
         try{
             BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
 
             while(fileReader.ready()){
+                cpu.setMODE(USER);
                 String currentLine = fileReader.readLine();
                 if(currentLine.isEmpty()){
                     continue;
                 }
                 System.out.println(currentLine);
                 virtualMachine.excecuteCommand(currentLine);
+                cpu.setMODE(SUPERVISOR);
+                processInterrupt();
             }
             fileReader.close();
         } catch (IOException e) {
             System.out.println("BufferedReader exception.");
             e.printStackTrace();
+        }
+    }
+
+    
+    public void processInterrupt(){
+        /*
+        1 - neteisingas adresas
+        2 - neteisingas operacijos kodas
+        3 - neteisingas priskyrimas
+        4 - perpildymas (overflow)
+        5 - komanda GD
+        6 - komanda PR
+        7 - komanda HALT
+        8 - komanda LOC
+        9 - komanda UNL
+        10 - timerio pertraukimas
+        */
+        int interrupt = cpu.getInterrupt();
+        while(interrupt != 0) {
+            switch (interrupt) {
+                case 1:
+                    System.out.println("Out of bounds");
+                    break;
+                case 2:
+                    System.out.println("Invalid command");
+                    break;
+                case 3:
+                    
+                    break;
+                case 4:
+                    System.out.println("Not enough disk space");
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+                case 10:
+                    break;
+                default:
+                    break;
+            }
+            interrupt = cpu.getInterrupt();
         }
     }
     /*

@@ -1,20 +1,17 @@
 public class VirtualMachine {
-    private CPU cpu = new CPU();
+    private CPU cpu;
     private Memory memory;
-    private int memorySize = 100;
-    //private int BA;
-    //private int BB;
-    //private int IC;
-    //private int SF;
+
 
     // TODO
-    public VirtualMachine(Memory rm) {
-        this.memory = rm;
+    public VirtualMachine(Memory memory, CPU cpu) {
+        this.memory = memory;
+        this.cpu = cpu;
+        cpu.clearParameters();
     }
 
     public void excecuteCommand(String command){
         //System.out.println(command);
-        cpu.clearParameters();
         int commandKey = cpu.findCommand(command);
         cpu.parseCommand(command, commandKey);
         cpu.callCommand(commandKey, this);

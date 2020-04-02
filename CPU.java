@@ -5,12 +5,14 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 
 public class CPU {
-
     private HashMap<Integer, String> commandsHashMap = new HashMap<Integer, String>();
 
     // Parameters:
     private int x = -1, x1 = -1, x2 = -1;
     private int parameterLength = 1;
+
+    private final int SUPERVISOR = 0;
+    private final int USER = 1;
 
     // TODO: tikriausiai reikes perkelt i kita klase
     private String START = "$STR";
@@ -41,26 +43,40 @@ public class CPU {
     private int BA;
     private int BB;
     private int BC;
-    private int IC;
-    private int SF;
-    private int S;
-    private int MODE;
-    private int PTR;
-    private int SPTR;
-    private int TI;
-    private int SI;
-    private int PI;
-    private int CH1;
-    private int CH2;
-    private int CH3;
+    private int IC;     // komandu skaitliukas // TODO
+    private int SF;     // loginis registras priklauso nuo CMP // TODO
+    private int S;      // TODO
+    private int MODE;   // TODO supervisor
+    private int PTR;    // TODO
+    private int SPTR;   // TODO
+
+    private int TI;     // timerio pertraukimo registras // TODO
+    private int SI;     // supervizoriniu pertraukimu registras
+                        // 1 - komanda GD 
+                        // 2 - komanda PR //TODO
+                        // 3 - komanda HALT // TODO
+                        // 4 - komanda LOC // TODO
+                        // 5 - komanda UNL //TODO
+    private int PI;     // programiniu pertraukimu registras
+                        // 1 - neteisingas adresas //TODO
+                        // 2 - neteisingas operacijos kodas
+                        // 3 - neteisingas priskyrimas //TODO
+                        // 4 - perpildymas (overflow) //TODO
+
+    private int CH1;    // priima duomenis iš įvedimo įrenginio(klaviatūra) ir perduoda juos į vartotojo atmintį
+    private int CH2;    // TODO: tvarko duomenų srautą einantį iš vartotojoatminties į išvesties įrenginį (ekranas)
+    private int CH3;    // TODO: apsikeitimas duomenimis tarp supervizorinės atminties ir išorinės atminties įrenginių (kietojo disko)
+                        // CH: 0 - ivyko klaida, 1 - kanalas atliko darba
     //private static final int TIME = 20;
-    public static final int SUPERVISOR = 0;
-    public static final int USER = 1;
 
     public CPU() {
         BA = 0;
         BB = 0;
-        BC = 0;//TODO add more
+        BC = 0;
+        
+        CH1 = 1;
+        CH2 = 1;
+        CH3 = 1;//TODO add more
 
         commandsHashMap.put(ADD0, "ADD0");
         commandsHashMap.put(SUB0, "SUB0");
@@ -88,17 +104,23 @@ public class CPU {
     // finds command and returns commandHashMap key
     public int findCommand(String unknownCommand){
         //System.out.println("unknownCommand: " + unknownCommand);
-        int commandKey = -1;
-        for(Map.Entry command : commandsHashMap.entrySet()){
-            if(unknownCommand.startsWith((String) command.getValue())){
-                //System.out.println("Command found: Key: " + command.getKey() + " & Value: " + command.getValue());
-                commandKey = (int) command.getKey();
+        if(MODE == USER)
+        {
+            int commandKey = -1;
+            for(Map.Entry command : commandsHashMap.entrySet()){
+                if(unknownCommand.startsWith((String) command.getValue())){
+                    //System.out.println("Command found: Key: " + command.getKey() + " & Value: " + command.getValue());
+                    commandKey = (int) command.getKey();
+                }
             }
+            return commandKey;
         }
-        return commandKey;
+        PI = 2;
+        return -1;
     }
 
     public void parseCommand(String command, int commandKey){
+        if(MODE == USER)
         switch (commandKey) {
             case ADD0:
                 format0(command, commandKey);
@@ -156,13 +178,7 @@ public class CPU {
                 break;
         }
     }
-/*
-ADD0 SUB0 MUL0 DIV0
-GAx1x2 GBx1x2 SAx1x2 SBx1x2 PRx1x2 GDx1x2
-DBAx UBAx LOCx UNLx
-CMP
-HALT JMx1x2
-*/
+
     public void format0(String command,  int commandKey){ // no parameters, e.g. CMP, HALT or ADD0
         int commandLength = (commandKey == CMP) ? 3 : 4;
         if(command.length() != commandLength)
@@ -190,6 +206,7 @@ HALT JMx1x2
     }
 
     public void callCommand(int key, VirtualMachine vm){
+        if(MODE == USER)
         switch (key) {
             case ADD0:
                 add0(vm);
@@ -290,6 +307,9 @@ HALT JMx1x2
     public void pr(VirtualMachine vm, int x1, int x2){
         System.out.println("pr(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         System.out.println(new Word().wordToInt(vm.readFromMemory(16 * x1 + x2)));
+        // TODO: SI = 2;
+        // TODO: CH2 = 0;
+        // bet turi but klaidu apdorojimas, kokia klaida gali but su println()?
     }
     public void gd(VirtualMachine vm, int x1, int x2){
         System.out.println("gd(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
@@ -306,6 +326,8 @@ HALT JMx1x2
 
             vm.writeToMemory(inputWord, 16 * x1 + x2);
         } catch (IOException e) {
+            SI = 1;
+            CH1 = 0;
             System.out.println("BufferedReader exception.");
             e.printStackTrace();
         }
@@ -345,6 +367,30 @@ HALT JMx1x2
     public void jm(int x1, int x2){ // TODO: add to callCommand
         System.out.println("jm(int x1 = " + x1 + ", int x2 = " + x2 + ")");
         // TODO
+    }
+
+    public int getInterrupt(){
+        switch (PI) {
+            case 1: return 1;
+            case 2: return 2;
+            case 3: return 3;
+            case 4: return 4;
+        }
+        switch (SI) {
+            case 1: return 5;
+            case 2: return 6;
+            case 3: return 7;
+            case 4: return 8;
+            case 5: return 9;
+        }
+        //if(TI == 0) return 10;
+        return 0;
+    }
+
+    public void resetInterrupts(){
+        PI = 0;
+        SI = 0;
+        //TI = ?
     }
 
     public String getCommandByKey(int key){
@@ -476,6 +522,4 @@ HALT JMx1x2
     public void setBA(int bA) {
         this.BA = bA;
     }
-
-
 }

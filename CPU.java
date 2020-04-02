@@ -1,5 +1,8 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 public class CPU {
 
@@ -82,7 +85,6 @@ public class CPU {
         commandsHashMap.put(JMx1x2, "JM");
     }
 
-    
     // finds command and returns commandHashMap key
     public int findCommand(String unknownCommand){
         //System.out.println("unknownCommand: " + unknownCommand);
@@ -187,7 +189,6 @@ HALT JMx1x2
         x2 = Integer.parseInt(tmp2);
     }
 
-
     public void callCommand(int key, VirtualMachine vm){
         switch (key) {
             case ADD0:
@@ -289,10 +290,25 @@ HALT JMx1x2
     public void pr(VirtualMachine vm, int x1, int x2){
         System.out.println("pr(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         System.out.println(new Word().wordToInt(vm.readFromMemory(16 * x1 + x2)));
-        // TODO
     }
     public void gd(VirtualMachine vm, int x1, int x2){
         System.out.println("gd(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
+        System.out.print("Input: ");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try{
+            String inputString = reader.readLine(); // pakeiciu is 16 zodziu i 8 zodzius, 1 zodis butu du simboliai, dabar max gali buti 16 simboliu
+            int inputLength = inputString.length();
+            if(inputLength >= 16)
+                inputString.substring(0, 16).trim(); // nukertam gala, jei daugiau nei 16 simboliu
+                
+            int inputInt = Integer.parseInt(inputString);
+            Word inputWord = new Word().intToWord(inputInt);
+
+            vm.writeToMemory(inputWord, 16 * x1 + x2);
+        } catch (IOException e) {
+            System.out.println("BufferedReader exception.");
+            e.printStackTrace();
+        }
         // TODO
     }
 

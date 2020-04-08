@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 
 public class Word {
-    public static final int SIZE = 4; //bytes
+    public static final int SIZE = 2; //bytes
     private final byte[] data;
     
     public Word(){

@@ -8,42 +8,28 @@ import java.util.Random;
 public class RM {
     private CPU cpu;
     //private RealMemory memory;
-    private Word memory[];
-
+    
     //private RealMemory realMemory;
     //public final static int SWAP_SIZE = 2; // blocks //not sure what this is
 
-    private final int BLOCKSIZE = 16; // words
-    private final int userMemorySize = BLOCKSIZE * 80;
-    private final int externalMemorySize = BLOCKSIZE * 50;
-
     private final int SUPERVISOR = 0;
     private final int USER = 1;
+    private Memory memory;
 
     // VM skiriama 16 bloku. Vartotojo atmintis:
-    // [ (VM 1)(VM 2)(VM 3)(VM 4)(puslapiu lentele) ]
-    
+    // [(VM 1)(VM 2)(VM 3)(VM 4)(puslapiu lentele 4 blokai) ]
+    // RM skiriama 50 blokų po 16 zodziu 
+
+
     public RM() {
         cpu = new CPU();
-        cpu.setMODE(SUPERVISOR);
-        memory = new Word[userMemorySize + externalMemorySize];
-        for (int i = 0; i < userMemorySize + externalMemorySize; i++){
-            memory[i] = new Word();
-        }
+        //cpu.setMODE(SUPERVISOR);
+        memory = new Memory(cpu);
         int ptr = 4 * 16;
         cpu.setPTR(ptr);
-        createTable();
+        //memory.createTable();
         //memory = new RealMemory(supervisorMemorySize, userMemorySize, externalMemorySize);
     }
-
-    public void createTable(){
-        int ptr = cpu.getPTR();
-        for (int i = ptr; i < ptr + 16 * BLOCKSIZE; i++){
-            memory[i] = new Word().intToWord(i);//getRandomNumberInRange(0, ptr-1));
-            //System.out.println("memory[" + i + "] = " + new Word().wordToInt(memory[i]));
-        }
-    }
-
     private int getRandomNumberInRange(int min, int max) {
 
 		if (min >= max) {
@@ -55,7 +41,7 @@ public class RM {
 	}
 
     public void loadProgram(String fileName){
-        VirtualMachine virtualMachine = new VirtualMachine(memory, cpu);
+        VirtualMachine virtualMachine = new VirtualMachine(memory.returnMemory(), cpu);
 
         try{
             BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
@@ -67,7 +53,7 @@ public class RM {
                     continue;
                 }
                 System.out.println(currentLine);
-                memory = virtualMachine.excecuteCommand(currentLine);
+                //memory = virtualMachine.excecuteCommand(currentLine);
                 cpu.setMODE(SUPERVISOR);
                 processInterrupt();
             }
@@ -133,14 +119,7 @@ public class RM {
      * ptr)); mmu.write(Word.intToWord(Word.wordToInt(mmu.read(vmCountAddress))+1),
      * vmCountAddress); cpu.setMODE(lastMode); return i; }
      */
-/*
-    public Word[] viewRealMemory() {
-        return realMemory.viewData();
-    }
 
-    public Word[] viewExternalMemory() {
-        return externalMemory.viewData();
-    }*/
 
     public CPU getCPU() {
         return cpu;

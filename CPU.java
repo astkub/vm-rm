@@ -63,9 +63,9 @@ public class CPU {
                         // 3 - neteisingas priskyrimas //TODO
                         // 4 - perpildymas (overflow) //TODO
 
-    private int CH1;    // priima duomenis iš įvedimo įrenginio(klaviatūra) ir perduoda juos į vartotojo atmintį
-    private int CH2;    // TODO: tvarko duomenų srautą einantį iš vartotojoatminties į išvesties įrenginį (ekranas)
-    private int CH3;    // TODO: apsikeitimas duomenimis tarp supervizorinės atminties ir išorinės atminties įrenginių (kietojo disko)
+    private int CH1;    // 
+    private int CH2;    // 
+    private int CH3;    // 
                         // CH: 0 - ivyko klaida, 1 - kanalas atliko darba
     //private static final int TIME = 20;
 

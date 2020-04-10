@@ -1,16 +1,19 @@
 
 
-1. Pakeičiau atminties dydį: Vartotojo atmintis 80 blokų -> 68 blokai (4 VM po 16 blokų + 4 blokai atminties lentelei);
+1. Pakeistas atminties dydis: userMemory atmintis 80 blokų -> 68 blokai (4 VM po 16 blokų + 4 blokai atminties lentelei);
 
 2. Word klasėje pakeičiau žodžio dydį 4 -> 2, jei buvo naudota 4, o ne SIZE, gali kilti problemų;
 
 3. BLOCKSIZE palieku 16; (Jei jis bus keičiamas reikia pakeisti ir kiek blokų skiriama atminties lentelei ir kiekvienai VM)
 
-4. Į Memory klasę perkeltos dauguma funkcijų susijusios su memory[] keitimu/printinimu/pildymu (liko readFromMemory ir writeToMemory, 
-reikia pataisyti į kurią vietą įrašomas/paimamas žodis);
+4. Į Memory klasę perkeltos dauguma funkcijų susijusios su memory[] keitimu/printinimu/pildymu;
+
+5. Atmntyje rašoma usermemory(VM vietos, memoryTable) ir tada externalMemory, išvardinta tvarka;
 
 //Kaip nuspręndžiama kurie blokai duodami VM? Ar tiesiog kai prireikia VM pasiima sekantį laisvą bloką ir įsirašo į adresų lentelę?
 //Ar memory[] masyve pirma yra userMemory ar externalMemory?
-//Tikriausiai visi registrai turėtų būti rašomi į external memory?
+//Ar registrai turėtų būti rašomi į external memory?
 
 //TODO Padaryti sąrašą VM, pagal kurį bus skiriama vieta atminties ir vieta atminties lentelėje 
+//TODO VM konstruktoriūje ar kažkur sukuriant VM reikia padaryti memorytable užpildymą (nustatyti kurie blokai bus skirti VM ir juos 
+užrašyti į memorytable)

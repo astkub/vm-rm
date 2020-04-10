@@ -25,6 +25,7 @@ public class RM {
         cpu = new CPU();
         //cpu.setMODE(SUPERVISOR);
         memory = new Memory(cpu);
+        cpu.setMemory(memory);
         int ptr = 4 * 16;
         cpu.setPTR(ptr);
         //memory.createTable();

@@ -9,6 +9,9 @@ public class Memory{
     private final int userMemorySize = BLOCKSIZE * 68;
     private final int externalMemorySize = BLOCKSIZE * 50;
     private CPU cpu;
+
+    private final int SUPERVISOR = 0;
+    private final int USER = 1;
     
     public Memory(CPU cpu){
         this.cpu = cpu;
@@ -20,7 +23,7 @@ public class Memory{
 
     public void createTable(){
         int ptr = cpu.getPTR();
-        for (int i = ptr; i < ptr + BLOCKSIZE; i++){
+        for (int i = ptr; i < ptr + 4*BLOCKSIZE; i++){
             memory[i] = new Word().intToWord(i);//getRandomNumberInRange(0, ptr-1));
             //System.out.println("memory[" + i + "] = " + new Word().wordToInt(memory[i]));
         }
@@ -66,12 +69,42 @@ public class Memory{
         return memory;
     }
 
-    public void writeToMemory(Word word, int x, int y){
+    public void writeToMemory(Word word, int x, int y, int mode){  //naudojant memorytable ir skaitant kad yra tik 1 VM
+        if (mode == USER){
+            int ptr = cpu.getPTR();
+            int rmblock = new Word().wordToInt(memory[ptr + x]);   //is memorytable nustatomas atitinkamas blokas
+            memory[rmblock + y] = word; 
+        }
+        else if (mode == SUPERVISOR){
+            int rmblock = new Word().wordToInt(memory[userMemorySize + x]);
+            memory[rmblock + y] = word; 
+        }
+        else{
+            System.out.println("Incorrect mode id.");
+        }
 
     }
+
+    public Word readFromMemory(int x, int y, int mode){  //naudojant memorytable
+        if (mode == USER){
+            int ptr = cpu.getPTR();
+            int rmblock = new Word().wordToInt(memory[ptr + x]); 
+            return memory[rmblock + y]; 
+        }
+        else if (mode == SUPERVISOR){
+            int rmblock = new Word().wordToInt(memory[userMemorySize + x]);
+            return memory[rmblock + y];
+        }
+        else{
+            System.out.println("Incorrect mode id.");
+            return new Word().intToWord(0);
+        }
+
+    }
+
     /*
 
-    // TODO: patikrint ar gerai veikia
+    // TODO: patikrint ar gerai veikia  //naudojant formule
     public void writeToMemory(Word word, int x, int y){
         //memory.write(word, address);
         int ptr = cpu.getPTR();
@@ -83,7 +116,7 @@ public class Memory{
         System.out.println("Writing memory[" + 10 * tmp + y + "] = " + new Word().wordToInt(memory[10 * tmp + y]));
     }
 
-    // TODO: patikrint ar gerai veikia
+    // TODO: patikrint ar gerai veikia    //naudojant formule
     public Word readFromMemory(int x, int y){
         //return memory.read(address);
         int ptr = cpu.getPTR();

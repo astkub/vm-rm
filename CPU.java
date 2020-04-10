@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public class CPU {
     private HashMap<Integer, String> commandsHashMap = new HashMap<Integer, String>();
+    private Memory memory;
 
     // Parameters:
     private int x = -1, x1 = -1, x2 = -1;
@@ -284,29 +285,32 @@ public class CPU {
 
     public void ga(VirtualMachine vm, int x1, int x2){
         System.out.println("ga(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
-        Word word = vm.readFromMemory(x1, x2);
+        Word word = memory.readFromMemory(x1, x2, USER);
+        //Word word = vm.readFromMemory(x1, x2);
         vm.setBA(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
     }
     public void gb(VirtualMachine vm, int x1, int x2){
         System.out.println("gb(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
-        Word word = vm.readFromMemory(x1, x2);
+        Word word = memory.readFromMemory(x1, x2, USER);
+        //Word word = vm.readFromMemory(x1, x2);
         vm.setBB(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
     }
     public void sa(VirtualMachine vm, int x1, int x2){
         System.out.println("sa(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         int wrd = vm.getBA();
         Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
-        vm.writeToMemory(word, x1, x2);
+        memory.writeToMemory(word, x1, x2, USER);
+        
     }
     public void sb(VirtualMachine vm, int x1, int x2){
         System.out.println("sb(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         int wrd = vm.getBB();
         Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
-        vm.writeToMemory(word, x1, x2);
+        memory.writeToMemory(word, x1, x2, USER);
     }
     public void pr(VirtualMachine vm, int x1, int x2){
         System.out.println("pr(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
-        System.out.println(new Word().wordToInt(vm.readFromMemory(x1, x2)));
+        System.out.println(new Word().wordToInt(memory.readFromMemory(x1, x2, USER)));
         // TODO: SI = 2;
         // TODO: CH2 = 0;
         // bet turi but klaidu apdorojimas, kokia klaida gali but su println()?
@@ -324,7 +328,7 @@ public class CPU {
             int inputInt = Integer.parseInt(inputString);
             Word inputWord = new Word().intToWord(inputInt);
 
-            vm.writeToMemory(inputWord, x1, x2);
+            memory.writeToMemory(inputWord, x1, x2, USER);
         } catch (IOException e) {
             SI = 1;
             CH1 = 0;
@@ -521,5 +525,9 @@ public class CPU {
 
     public void setBA(int bA) {
         this.BA = bA;
+    }
+
+    public void setMemory(Memory memory){
+        this.memory = memory;
     }
 }

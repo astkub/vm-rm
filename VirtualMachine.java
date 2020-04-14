@@ -1,22 +1,23 @@
+
+
 public class VirtualMachine {
     private CPU cpu;
     //private Memory memory;
-    private Word memory[];
-
+    private Memory memory;
+    private int ID;
 
     // TODO
-    public VirtualMachine(Word memory[], CPU cpu) {
+    public VirtualMachine(Memory memory, CPU cpu, int ID) {
         this.memory = memory;
         this.cpu = cpu;
-        cpu.clearParameters();
+        memory.fillTable(ID);
     }
 
-    public Word[] excecuteCommand(String command){
+    public void excecuteCommand(String command){
         //System.out.println(command);
         int commandKey = cpu.findCommand(command);
         cpu.parseCommand(command, commandKey);
         cpu.callCommand(commandKey, this);
-        return memory;
     }
 
     public int getSF() {

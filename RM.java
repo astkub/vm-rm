@@ -7,14 +7,12 @@ import java.util.Random;
 
 public class RM {
     private CPU cpu;
-    //private RealMemory memory;
-    
-    //private RealMemory realMemory;
-    //public final static int SWAP_SIZE = 2; // blocks //not sure what this is
 
     private final int SUPERVISOR = 0;
     private final int USER = 1;
     private Memory memory;
+    private VirtualMachine VMs[];
+    private int workingVMs;
 
     // VM skiriama 16 bloku. Vartotojo atmintis:
     // [(VM 1)(VM 2)(VM 3)(VM 4)(puslapiu lentele 4 blokai) ]
@@ -23,13 +21,12 @@ public class RM {
 
     public RM() {
         cpu = new CPU();
-        //cpu.setMODE(SUPERVISOR);
+        cpu.setMODE(SUPERVISOR);
         memory = new Memory(cpu);
         cpu.setMemory(memory);
         int ptr = 4 * 16;
         cpu.setPTR(ptr);
-        //memory.createTable();
-        //memory = new RealMemory(supervisorMemorySize, userMemorySize, externalMemorySize);
+        workingVMs = 0;
     }
     private int getRandomNumberInRange(int min, int max) {
 
@@ -42,7 +39,9 @@ public class RM {
 	}
 
     public void loadProgram(String fileName){
-        VirtualMachine virtualMachine = new VirtualMachine(memory.returnMemory(), cpu);
+        VirtualMachine virtualMachine = new VirtualMachine(memory, cpu, (workingVMs + 1));
+        VMs[workingVMs] = virtualMachine;
+        workingVMs++;
 
         try{
             BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
@@ -54,7 +53,7 @@ public class RM {
                     continue;
                 }
                 System.out.println(currentLine);
-                //memory = virtualMachine.excecuteCommand(currentLine);
+                virtualMachine.excecuteCommand(currentLine);
                 cpu.setMODE(SUPERVISOR);
                 processInterrupt();
             }
@@ -112,22 +111,9 @@ public class RM {
             interrupt = cpu.getInterrupt();
         }
     }
-    /*
-     * private int newVM() throws MemoryException { int lastMode = cpu.getMODE();
-     * cpu.setMODE(CPU.SUPERVISOR); int i = 0; while
-     * (Word.wordToInt(mmu.read(vmTableAddress + i*4)) == 1) { i++; } int ptr =
-     * i*PAGE_TABLE_SIZE + pageTableAddress; updateVM(i, new VirtualMachine(1, 0, 0,
-     * ptr)); mmu.write(Word.intToWord(Word.wordToInt(mmu.read(vmCountAddress))+1),
-     * vmCountAddress); cpu.setMODE(lastMode); return i; }
-     */
-
 
     public CPU getCPU() {
         return cpu;
     }
-/*
-    public int getSupervisorSize() {
-        return supervisorSize;
-    }*/
 
 }

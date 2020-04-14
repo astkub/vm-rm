@@ -29,6 +29,27 @@ public class Memory{
         }
     }
 
+    public void fillTable(int nr){
+        int ptr = cpu.getPTR();
+        boolean write = false;
+        for (int i = ptr + nr * BLOCKSIZE; i < ptr + (nr + 1) * BLOCKSIZE; i++){
+            for (int j = 0; j < ptr; j++)
+            {
+                for(int k = ptr; k < userMemorySize; k++)
+                    if (j == Word.wordToInt(memory[k])){
+                        write = false;
+                        break;
+                    }
+                    else
+                        write = true;
+                if (write){
+                    memory[i] = Word.intToWord(j);
+                    break;
+                }
+            }
+        }
+    }
+
     public void printUserMemory() {
         int temp = 0;
         for (int i = 0; i < userMemorySize; i++){

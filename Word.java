@@ -36,7 +36,7 @@ public class Word {
     }
     
     public static int wordToInt(Word word) {
-        ByteBuffer bb = ByteBuffer.allocateDirect(SIZE);
+        ByteBuffer bb = ByteBuffer.allocateDirect(SIZE*8);
         bb.order(ByteOrder.LITTLE_ENDIAN);
         bb.clear();
         for(int i = 0; i < SIZE; i++){
@@ -47,7 +47,7 @@ public class Word {
     }
     
     public static Word intToWord(int value) {
-        ByteBuffer bb = ByteBuffer.allocateDirect(SIZE);
+        ByteBuffer bb = ByteBuffer.allocateDirect(SIZE*8);
         bb.order(ByteOrder.LITTLE_ENDIAN);
         bb.clear();
         bb.putInt(value);

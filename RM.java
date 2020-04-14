@@ -27,6 +27,7 @@ public class RM {
         int ptr = 4 * 16;
         cpu.setPTR(ptr);
         workingVMs = 0;
+
     }
     private int getRandomNumberInRange(int min, int max) {
 
@@ -40,7 +41,6 @@ public class RM {
 
     public void loadProgram(String fileName){
         VirtualMachine virtualMachine = new VirtualMachine(memory, cpu, (workingVMs + 1));
-        VMs[workingVMs] = virtualMachine;
         workingVMs++;
 
         try{

@@ -40,7 +40,7 @@ public class RM {
 	}
 
     public void loadProgram(String fileName){
-        VirtualMachine virtualMachine = new VirtualMachine(memory, cpu, (workingVMs + 1));
+        VirtualMachine virtualMachine = new VirtualMachine(memory, cpu, (workingVMs));
         workingVMs++;
 
         try{
@@ -114,6 +114,14 @@ public class RM {
 
     public CPU getCPU() {
         return cpu;
+    }
+
+    public void printMemory() {
+        memory.printMemory();
+    }
+
+    public void printMemoryTable() {
+        memory.printMemoryTable();
     }
 
 }

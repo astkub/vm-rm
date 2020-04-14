@@ -75,14 +75,17 @@ public class Memory{
         for (int i = ptr; i < ptr + 4 * BLOCKSIZE ; i++){
             if (temp == 16)
                 System.out.println();
-            System.out.println("memory[" + i + "] = " + memory[i]);
+            System.out.print("memory[" + i + "] = " + Word.wordToInt(memory[i]) + " ");
         }
         
     }
 
     public void printMemory(){
+        int temp = 0;
         for (int i = 0; i < userMemorySize + externalMemorySize; i++){
-            System.out.println("memory[" + i + "] = " + memory[i]);
+            if (temp == 16)
+                System.out.println();
+            System.out.print("memory[" + i + "] = " + Word.wordToInt(memory[i]) + " ");
         }
     }
  

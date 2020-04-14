@@ -8,9 +8,11 @@ public class VirtualMachine {
 
     // TODO
     public VirtualMachine(Memory memory, CPU cpu, int ID) {
+        System.out.println(ID);
         this.memory = memory;
         this.cpu = cpu;
-        memory.fillTable(ID);
+        this.ID = ID;
+        memory.fillTable(this.ID);
     }
 
     public void excecuteCommand(String command){

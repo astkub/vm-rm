@@ -13,7 +13,7 @@ public class VirtualMachine {
         this.memory = memory;
         this.cpu = cpu;
         this.ID = ID;
-        memory.fillTable(this.ID);
+        //memory.fillTable();
     }
 
     //TODO getEND
@@ -22,32 +22,38 @@ public class VirtualMachine {
         cpu.setMODE(USER);
         Word command = memory.readFromMemory(0, 0, USER);
         int temp = 0;
+        int temp1 = 0;
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
             //System.out.println(Word.wordToInt(command));
+            System.out.println(Word.wordToInt(command));
             cpu.callCommand(Word.wordToInt(command), this);
             if (temp >= 16)
             {
-                temp = temp % 16;
                 temp2 = temp / 16;
+                temp1 = temp % 16;
             }
-            command = memory.readFromMemory(temp, temp2, USER);
+            else temp1 = temp;
+            
+            System.out.println("Reading from: " + temp2 + ", " + temp1);
+            command = memory.readFromMemory(temp1, temp2, USER);
             temp++;
         }
         cpu.callCommand(Word.wordToInt(command), this);
         cpu.setMODE(SUPERVISOR);
     }
 
-    public void saveComand(String command, int temp){
+    public void saveComand(String command, int temp1){
         int commandKey = cpu.findCommand(command);
         cpu.parseCommand(command, commandKey);
         int temp2 = 0;
-        if (temp >= 16)
+        if (temp1 >= 16)
             {
-                temp = temp % 16;
-                temp2 = temp / 16;
+                temp2 = temp1 / 16;
+                temp1 = temp1 % 16;
             }
-        memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp, USER);
+        memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp1, USER);
+        System.out.println("Writing to: " + temp2 + ", " + temp1);
         cpu.setIC(cpu.getIC() + 1);
     }
 

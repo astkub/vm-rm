@@ -1,6 +1,9 @@
 
 import java.util.Arrays;
 
+import java.util.Random;
+
+
 public class Memory{
     
     private Word memory[];
@@ -19,29 +22,56 @@ public class Memory{
         for (int i = 0; i < userMemorySize + externalMemorySize; i++){
             memory[i] = new Word();
         }
+        fillTable();
     }
 
+    /*
     public void createTable(){
         int ptr = cpu.getPTR();
-        for (int i = ptr; i < ptr + 4*BLOCKSIZE; i++){
-            memory[i] = new Word().intToWord(i);//getRandomNumberInRange(0, ptr-1));
-            //System.out.println("memory[" + i + "] = " + new Word().wordToInt(memory[i]));
-        }
-    }
-
-    public void fillTable(int nr){
-        int ptr = cpu.getPTR();
-        boolean write = false;
-        for (int i = ptr + nr * BLOCKSIZE; i < ptr + (nr + 1) * BLOCKSIZE; i++){
-            for (int j = 0; j < ptr; j++)
-            {
-                for(int k = ptr; k < userMemorySize; k++)
-                    if (j == Word.wordToInt(memory[k])){
+        memory[ptr] = new Word().intToWord(0);
+        for (int i = ptr + 1; i < ptr + 1*BLOCKSIZE; i++){
+            int temp = getRandomNumberInRange(1, ptr-1);
+            boolean write = false;
+            for(int k = ptr; k < userMemorySize; k++)
+                    if (temp == Word.wordToInt(memory[k])){
                         write = false;
                         break;
                     }
                     else
                         write = true;
+                if (write){
+                    memory[i] = Word.intToWord(temp);
+                    break;
+                }
+        }
+    }
+
+    private int getRandomNumberInRange(int min, int max) {
+
+		if (min < max) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
+    }
+    */
+
+    public void fillTable(){
+        int ptr = cpu.getPTR();
+        boolean write = false;
+        for (int i = userMemorySize - ptr + 1; i < userMemorySize - ptr + 1 * BLOCKSIZE; i++){
+            for (int j = 1; j < ptr; j++)
+            {
+                for(int k = userMemorySize - ptr; k < userMemorySize - ptr + 4 * BLOCKSIZE; k++){
+                    if (j == Word.wordToInt(memory[k])){
+                        write = false;
+                        break;
+                    }
+                    else{
+                        write = true;
+                    }
+                }
                 if (write){
                     memory[i] = Word.intToWord(j);
                     break;
@@ -54,7 +84,7 @@ public class Memory{
     public void printVMMemory(int ID){
         int ptr = cpu.getPTR();
         int temp = 0;
-        for (int i = ptr + ID * BLOCKSIZE; i < ptr + (ID + 1) * BLOCKSIZE ; i++){
+        for (int i = userMemorySize - ptr + ID * BLOCKSIZE; i < userMemorySize - ptr + (ID + 1) * BLOCKSIZE ; i++){
             int rmblock = new Word().wordToInt(memory[i]); 
             for (int j = 0; j < 16; j++){
                 if (j % 4 ==0 )
@@ -93,7 +123,7 @@ public class Memory{
     public void printMemoryTable() {
         int ptr = cpu.getPTR();
         int temp = 0;
-        for (int i = ptr; i < ptr + 4 * BLOCKSIZE ; i++){
+        for (int i = userMemorySize - ptr; i < userMemorySize - ptr + 4 * BLOCKSIZE ; i++){
             if (temp == 16){
                 System.out.println("\n");
                 temp = 0;
@@ -123,11 +153,11 @@ public class Memory{
     public void writeToMemory(Word word, int x, int y, int mode){  //naudojant memorytable ir skaitant kad yra tik 1 VM
         if (mode == USER){
             int ptr = cpu.getPTR();
-            int rmblock = new Word().wordToInt(memory[ptr + x]);   //is memorytable nustatomas atitinkamas blokas
-            memory[rmblock + y] = word; 
+            int rmblock = new Word().wordToInt(memory[userMemorySize - ptr + x]);   //is memorytable nustatomas atitinkamas blokas
+            memory[rmblock*16 + y] = word; 
         }
         else if (mode == SUPERVISOR){
-            int rmblock = new Word().wordToInt(memory[userMemorySize + x]);
+            int rmblock = userMemorySize + x*16;
             memory[rmblock + y] = word; 
         }
         else{
@@ -139,11 +169,11 @@ public class Memory{
     public Word readFromMemory(int x, int y, int mode){  //naudojant memorytable
         if (mode == USER){
             int ptr = cpu.getPTR();
-            int rmblock = new Word().wordToInt(memory[ptr + x]); 
-            return memory[rmblock + y]; 
+            int rmblock = new Word().wordToInt(memory[userMemorySize - ptr + x]); 
+            return memory[rmblock*16 + y]; 
         }
         else if (mode == SUPERVISOR){
-            int rmblock = new Word().wordToInt(memory[userMemorySize + x]);
+            int rmblock = userMemorySize + x*16;
             return memory[rmblock + y];
         }
         else{

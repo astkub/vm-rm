@@ -21,11 +21,11 @@ public class RM {
 
     public RM() {
         cpu = new CPU();
+        int ptr = 4 * 16;
+        cpu.setPTR(ptr);
         cpu.setMODE(SUPERVISOR);
         memory = new Memory(cpu);
         cpu.setMemory(memory);
-        int ptr = 4 * 16;
-        cpu.setPTR(ptr);
         workingVMs = 0;
 
     }
@@ -53,7 +53,7 @@ public class RM {
                 if(currentLine.isEmpty()){
                     continue;
                 }
-                System.out.println(currentLine);
+                //System.out.println(currentLine);
                 virtualMachine.saveComand(currentLine, temp);
                 temp++;
                 processInterrupt();
@@ -63,8 +63,11 @@ public class RM {
             System.out.println("BufferedReader exception.");
             e.printStackTrace();
         }
+        printVMMemory();
         virtualMachine.excecuteCommand();
         cpu.setMODE(SUPERVISOR);
+        printVMMemory();
+
     }
 
     public void processInterrupt(){
@@ -112,6 +115,7 @@ public class RM {
             }
             interrupt = cpu.getInterrupt();
         }
+
     }
 
     public CPU getCPU() {

@@ -7,10 +7,10 @@ public class Main {
     public static void main(String[] args) {
         //VirtualMachine virtualMachine = new VirtualMachine();
         RM rm = new RM();
-        System.out.println("Possible commands:\nload [file_name]\nprint memory\nprint memory table\nquit");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while(true){
+            System.out.println("Possible commands:\nload [file_name]\nprint memory\nprint memory table\nquit");
             try {
                 String command = reader.readLine();
                 System.out.println(command);

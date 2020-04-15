@@ -16,8 +16,8 @@ public class CPU {
     private final int USER = 1;
 
     // TODO: tikriausiai reikes perkelt i kita klase
-    private String START = "$STR";
-    private String END = "$END";
+    private String START = "$STR"; // 99
+    private String END = "$END";   // 100
 
     private final int ADD0 = 1;
     private final int SUB0 = 2;
@@ -114,6 +114,11 @@ public class CPU {
                     commandKey = (int) command.getKey();
                 }
             }
+            if(unknownCommand.startsWith(START)){
+                return 99;
+            } else if(unknownCommand.startsWith(END)){
+                return 100;
+            }
             return commandKey;
         }
         PI = 2;
@@ -173,6 +178,12 @@ public class CPU {
                 break;
             case JMx1x2:
                 format2(command);
+                break;
+            case 99:
+                System.out.println("START");
+                break;
+            case 100:
+                System.out.println("END");
                 break;
             default:
                 System.out.println("Command not found. Command: " + command + " Key: " + commandKey);
@@ -259,6 +270,10 @@ public class CPU {
                 break;
             case JMx1x2:
                 jm(x1, x2);
+                break;
+            case 99: //START
+                break;
+            case 100: //END
                 break;
             default:
                 System.out.println("Command not found. Key: " + key);

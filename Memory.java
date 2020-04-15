@@ -55,7 +55,7 @@ public class Memory{
         for (int i = 0; i < userMemorySize; i++){
             if (temp == 16)
                 System.out.println();
-            System.out.println("memory[" + i + "] = " + memory[i]);
+            System.out.println(memory[i]);
         }       
     }
 

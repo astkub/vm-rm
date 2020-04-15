@@ -45,7 +45,7 @@ public class RM {
 
         try{
             BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
-
+            int temp = 0;
             while(fileReader.ready()){
                 cpu.setMODE(USER);
                 String currentLine = fileReader.readLine();
@@ -53,7 +53,8 @@ public class RM {
                     continue;
                 }
                 System.out.println(currentLine);
-                virtualMachine.excecuteCommand(currentLine);
+                virtualMachine.saveComand(currentLine, temp);
+                temp++;
                 cpu.setMODE(SUPERVISOR);
                 processInterrupt();
             }
@@ -62,6 +63,9 @@ public class RM {
             System.out.println("BufferedReader exception.");
             e.printStackTrace();
         }
+
+        virtualMachine.excecuteCommand();
+
     }
 
     

@@ -16,8 +16,8 @@ public class CPU {
     private final int USER = 1;
 
     // TODO: tikriausiai reikes perkelt i kita klase
-    private String START = "$STR"; // 99
-    private String END = "$END";   // 100
+    private final int START = 99;
+    private final int END = 100;
 
     private final int ADD0 = 1;
     private final int SUB0 = 2;
@@ -100,6 +100,9 @@ public class CPU {
 
         commandsHashMap.put(HALT, "HALT");
         commandsHashMap.put(JMx1x2, "JM");
+
+        commandsHashMap.put(START, "$STR");
+        commandsHashMap.put(END, "$END");
     }
 
     // finds command and returns commandHashMap key
@@ -113,11 +116,6 @@ public class CPU {
                     //System.out.println("Command found: Key: " + command.getKey() + " & Value: " + command.getValue());
                     commandKey = (int) command.getKey();
                 }
-            }
-            if(unknownCommand.startsWith(START)){
-                return 99;
-            } else if(unknownCommand.startsWith(END)){
-                return 100;
             }
             return commandKey;
         }

@@ -7,6 +7,7 @@ public class Main {
     public static void main(String[] args) {
         //VirtualMachine virtualMachine = new VirtualMachine();
         RM rm = new RM();
+        
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while(true){

@@ -5,21 +5,45 @@ public class VirtualMachine {
     //private Memory memory;
     private Memory memory;
     private int ID;
+    private final int USER = 1;
 
-    // TODO
     public VirtualMachine(Memory memory, CPU cpu, int ID) {
-        System.out.println(ID);
         this.memory = memory;
         this.cpu = cpu;
         this.ID = ID;
         memory.fillTable(this.ID);
     }
 
-    public void excecuteCommand(String command){
-        //System.out.println(command);
+    //TODO getEND
+    public void excecuteCommand(){  
+        System.out.println("Executing");
+        Word command = memory.readFromMemory(0, 0, USER);
+        int temp = 0;
+        int temp2 = 0;
+        while(Word.wordToInt(command) != 100){
+            cpu.callCommand(Word.wordToInt(command), this);
+            if (temp >= 16)
+            {
+                temp = temp % 16;
+                temp2 = temp / 16;
+            }
+            command = memory.readFromMemory(temp, temp2, USER);
+            temp++;
+        }
+        cpu.callCommand(Word.wordToInt(command), this);
+    }
+
+    public void saveComand(String command, int temp){
         int commandKey = cpu.findCommand(command);
         cpu.parseCommand(command, commandKey);
-        cpu.callCommand(commandKey, this);
+        int temp2 = 0;
+        if (temp >= 16)
+            {
+                temp = temp % 16;
+                temp2 = temp / 16;
+            }
+        memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp, USER);
+        cpu.setIC(cpu.getIC() + 1);
     }
 
     public int getSF() {

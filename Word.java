@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 
 public class Word {
-    public static final int SIZE = 2; //bytes
+    public static final int SIZE = 4; //bytes
     private final byte[] data;
     
     public Word(){
@@ -47,6 +47,18 @@ public class Word {
     }
     
     public static Word intToWord(int value) {
+        ByteBuffer bb = ByteBuffer.allocateDirect(SIZE*8);
+        bb.order(ByteOrder.LITTLE_ENDIAN);
+        bb.clear();
+        bb.putInt(value);
+        Word word = new Word();
+        for(int i = 0; i < SIZE; i++){
+            word.setByte(i, bb.get(i));
+        }
+        return word;
+    }
+
+    public static Word charToWord(char value) {
         ByteBuffer bb = ByteBuffer.allocateDirect(SIZE*8);
         bb.order(ByteOrder.LITTLE_ENDIAN);
         bb.clear();

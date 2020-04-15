@@ -56,7 +56,6 @@ public class RM {
                 System.out.println(currentLine);
                 virtualMachine.saveComand(currentLine, temp);
                 temp++;
-                cpu.setMODE(SUPERVISOR);
                 processInterrupt();
             }
             fileReader.close();
@@ -64,9 +63,8 @@ public class RM {
             System.out.println("BufferedReader exception.");
             e.printStackTrace();
         }
-
         virtualMachine.excecuteCommand();
-
+        cpu.setMODE(SUPERVISOR);
     }
 
     public void processInterrupt(){

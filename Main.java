@@ -11,7 +11,9 @@ public class Main {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while(true){
+            System.out.println("=====================================");
             System.out.println("Possible commands:\nload [file_name]\nprint memory\nprint memory table\nquit\nprint VM memory");
+            System.out.println("=====================================");
             try {
                 String command = reader.readLine();
                 System.out.println(command);
@@ -37,6 +39,5 @@ public class Main {
                 e.printStackTrace();
             }
         }
-
     }
 }

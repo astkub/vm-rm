@@ -5,6 +5,8 @@ public class VirtualMachine {
     //private Memory memory;
     private Memory memory;
     private int ID;
+
+    private final int SUPERVISOR = 0;
     private final int USER = 1;
 
     public VirtualMachine(Memory memory, CPU cpu, int ID) {
@@ -17,10 +19,12 @@ public class VirtualMachine {
     //TODO getEND
     public void excecuteCommand(){  
         System.out.println("Executing");
+        cpu.setMODE(USER);
         Word command = memory.readFromMemory(0, 0, USER);
         int temp = 0;
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
+            //System.out.println(Word.wordToInt(command));
             cpu.callCommand(Word.wordToInt(command), this);
             if (temp >= 16)
             {
@@ -31,6 +35,7 @@ public class VirtualMachine {
             temp++;
         }
         cpu.callCommand(Word.wordToInt(command), this);
+        cpu.setMODE(SUPERVISOR);
     }
 
     public void saveComand(String command, int temp){

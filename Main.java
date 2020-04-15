@@ -11,7 +11,7 @@ public class Main {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while(true){
-            System.out.println("Possible commands:\nload [file_name]\nprint memory\nprint memory table\nquit");
+            System.out.println("Possible commands:\nload [file_name]\nprint memory\nprint memory table\nquit\nprint VM memory");
             try {
                 String command = reader.readLine();
                 System.out.println(command);
@@ -26,9 +26,11 @@ public class Main {
                 else if(command.startsWith("print memory")){
                     rm.printMemory();
                 }
+                else if(command.startsWith("print VM memory")){
+                    rm.printVMMemory();
+                }
                 else if (command.startsWith("quit")){
                     break;
-                    
                 }
             } catch (IOException e) {
                 System.out.println("BufferedReader exception.");

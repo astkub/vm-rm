@@ -50,6 +50,21 @@ public class Memory{
         }
     }
 
+    //kolkas ID = 0
+    public void printVMMemory(int ID){
+        int ptr = cpu.getPTR();
+        int temp = 0;
+        for (int i = ptr + ID * BLOCKSIZE; i < ptr + (ID + 1) * BLOCKSIZE ; i++){
+            int rmblock = new Word().wordToInt(memory[i]); 
+            for (int j = 0; j < 16; j++){
+                if (j % 4 ==0 )
+                    System.out.println();
+                System.out.print(Word.wordToInt(readFromMemory(rmblock, j, USER)) + " ");
+            }
+            System.out.println();
+        }
+    }
+
     public void printUserMemory() {
         int temp = 0;
         for (int i = 0; i < userMemorySize; i++){

@@ -128,4 +128,8 @@ public class RM {
         memory.printMemoryTable();
     }
 
+    public void printVMMemory() {
+        memory.printVMMemory(0);
+    }
+ 
 }

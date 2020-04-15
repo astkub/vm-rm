@@ -68,18 +68,24 @@ public class Memory{
     public void printUserMemory() {
         int temp = 0;
         for (int i = 0; i < userMemorySize; i++){
-            if (temp == 16)
-                System.out.println();
-            System.out.println(memory[i]);
+            if (temp == 16){
+                System.out.println("\n");
+                temp = 0;
+            }
+            temp++;
+            System.out.println(Word.wordToInt(memory[i]));
         }       
     }
 
     public void printExternalMemory() {
         int temp = 0;
         for (int i = userMemorySize; i < externalMemorySize; i++){
-            if (temp == 16)
-                System.out.println();
-            System.out.println("memory[" + i + "] = " + memory[i]);
+            if (temp == 16){
+                System.out.println("\n");
+                temp = 0;
+            }
+            temp++;
+            System.out.println(Word.wordToInt(memory[i]) + " ");
         }
         
     }
@@ -88,9 +94,12 @@ public class Memory{
         int ptr = cpu.getPTR();
         int temp = 0;
         for (int i = ptr; i < ptr + 4 * BLOCKSIZE ; i++){
-            if (temp == 16)
-                System.out.println();
-            System.out.print("memory[" + i + "] = " + Word.wordToInt(memory[i]) + " ");
+            if (temp == 16){
+                System.out.println("\n");
+                temp = 0;
+            }
+            temp++;
+            System.out.print(Word.wordToInt(memory[i]) + " ");
         }
         
     }
@@ -98,9 +107,12 @@ public class Memory{
     public void printMemory(){
         int temp = 0;
         for (int i = 0; i < userMemorySize + externalMemorySize; i++){
-            if (temp == 16)
-                System.out.println();
-            System.out.print("memory[" + i + "] = " + Word.wordToInt(memory[i]) + " ");
+            if (temp == 16){
+                System.out.println("\n");
+                temp = 0;
+            }
+            temp++;
+            System.out.print(Word.wordToInt(memory[i]) + " ");
         }
     }
  

@@ -29,6 +29,7 @@ public class RM {
         workingVMs = 0;
 
     }
+
     private int getRandomNumberInRange(int min, int max) {
 
 		if (min >= max) {
@@ -68,7 +69,6 @@ public class RM {
 
     }
 
-    
     public void processInterrupt(){
         /*
         1 - neteisingas adresas

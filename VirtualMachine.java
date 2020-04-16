@@ -25,7 +25,6 @@ public class VirtualMachine {
         int temp1 = 0;
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
-            //System.out.println(Word.wordToInt(command));
             System.out.println(Word.wordToInt(command));
             cpu.callCommand(Word.wordToInt(command), this);
             if (temp >= 16)
@@ -35,7 +34,7 @@ public class VirtualMachine {
             }
             else temp1 = temp;
             
-            System.out.println("Reading from: " + temp2 + ", " + temp1);
+            //System.out.println("Reading from: " + temp2 + ", " + temp1);
             command = memory.readFromMemory(temp1, temp2, USER);
             temp++;
         }
@@ -53,7 +52,7 @@ public class VirtualMachine {
                 temp1 = temp1 % 16;
             }
         memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp1, USER);
-        System.out.println("Writing to: " + temp2 + ", " + temp1);
+        //System.out.println("Writing to: " + temp2 + ", " + temp1);
         cpu.setIC(cpu.getIC() + 1);
     }
 

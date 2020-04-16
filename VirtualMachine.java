@@ -82,11 +82,11 @@ public class VirtualMachine {
         cpu.setMODE(USER);
         Word command = memory.readFromMemory(0, 0, USER);
         int temp = cpu.getIC();
-        System.out.println("Testing IC:" + temp);
+        //System.out.println("Testing IC:" + temp);
         int temp1 = 0;
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
-            System.out.println("Before callCommand");
+            //System.out.println("Before callCommand");
             System.out.println(Word.wordToInt(command));
             int parameters = cpu.getParameterCount(Word.wordToInt(command));
             if(parameters == 1){
@@ -123,8 +123,8 @@ public class VirtualMachine {
             }
             cpu.callCommand(Word.wordToInt(command), this, true);
             temp = cpu.getIC();
-            System.out.println("Testing IC:" + cpu.getIC());
-            System.out.println("After callCommand");
+            //System.out.println("Testing IC:" + cpu.getIC());
+            //System.out.println("After callCommand");
             memory.printVMMemory(ID);
             if (temp >= 16)
             {
@@ -159,8 +159,6 @@ public class VirtualMachine {
             temp2 = temp1 / 16;
             temp1 = temp1 % 16;
         }
-        System.out.println("Paramether length: " + parameters);
-        System.out.println("Writting to: " + temp2 + ", " + temp1);
         memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp1, USER);
         if(parameters == 1){
             temp1++;
@@ -168,9 +166,8 @@ public class VirtualMachine {
                 temp2 = temp2 + temp1 / 16;
                 temp1 = temp1 % 16;
             }
-            System.out.println("x = " + cpu.getX());
+            //System.out.println("x = " + cpu.getX());
             //cpu.setIC(cpu.getIC() + 1);
-            System.out.println("Writting to: " + temp2 + ", " + temp1);
             memory.writeToMemory(Word.intToWord(cpu.getX()), temp2, temp1, USER);
             return 2;
         }
@@ -181,7 +178,7 @@ public class VirtualMachine {
                 temp1 = temp1 % 16;
             }
             //cpu.setIC(cpu.getIC() + 1);
-            System.out.println("Writting to: " + temp2 + ", " + temp1);
+            //System.out.println("Writting to: " + temp2 + ", " + temp1);
             memory.writeToMemory(Word.intToWord(cpu.getX1()), temp2, temp1, USER);
             temp1++;
             if (temp1 >= 16){
@@ -189,9 +186,9 @@ public class VirtualMachine {
                 temp1 = temp1 % 16;
             }
             //cpu.setIC(cpu.getIC() + 1);
-            System.out.println("Writting to: " + temp2 + ", " + temp1);
+            //System.out.println("Writting to: " + temp2 + ", " + temp1);
             memory.writeToMemory(Word.intToWord(cpu.getX2()), temp2, temp1, USER);
-            System.out.println("x1 = " + cpu.getX1() + " x2 = " + cpu.getX2());
+            //System.out.println("x1 = " + cpu.getX1() + " x2 = " + cpu.getX2());
             return 3;
         }
         return 1;

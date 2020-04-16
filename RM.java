@@ -67,7 +67,7 @@ public class RM {
         cpu.setMODE(SUPERVISOR);
         //printVMMemory();
     }
-  
+ 
     public void debugProgram(String fileName){
         VirtualMachine virtualMachine = new VirtualMachine(memory, cpu, (workingVMs));
         workingVMs++;

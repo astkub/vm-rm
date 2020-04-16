@@ -8,7 +8,7 @@ public class Main {
         //VirtualMachine virtualMachine = new VirtualMachine();
         RM rm = new RM();
         
-
+ 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while(true){
             System.out.println("=====================================");

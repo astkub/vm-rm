@@ -55,7 +55,6 @@ public class RM {
                 //System.out.println(currentLine);
                 int parameters = virtualMachine.saveComand(currentLine, temp);
                 temp += parameters;
-                cpu.setIC(cpu.getIC() + parameters);
                 processInterrupt();
             }
             fileReader.close();
@@ -68,11 +67,10 @@ public class RM {
         cpu.setMODE(SUPERVISOR);
         //printVMMemory();
     }
- 
+  
     public void debugProgram(String fileName){
         VirtualMachine virtualMachine = new VirtualMachine(memory, cpu, (workingVMs));
         workingVMs++;
-
 
         try{
             BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
@@ -85,8 +83,8 @@ public class RM {
                     continue;
                 }
                 //System.out.println(currentLine);
-                virtualMachine.saveComand(currentLine, temp);
-                temp++;
+                int parameters = virtualMachine.saveComand(currentLine, temp);
+                temp += parameters;
                 processInterrupt();
             }
             fileReader.close();

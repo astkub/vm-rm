@@ -262,7 +262,7 @@ public class CPU {
         x1 = Integer.parseInt(tmp1);
         x2 = Integer.parseInt(tmp2);
     }
-
+ 
     public void callCommand(int key, VirtualMachine vm, boolean debug){
         if(MODE == USER)
         switch (key) {

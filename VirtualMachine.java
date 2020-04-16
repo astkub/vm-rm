@@ -159,6 +159,8 @@ public class VirtualMachine {
             temp2 = temp1 / 16;
             temp1 = temp1 % 16;
         }
+        System.out.println("Paramether length: " + parameters);
+        System.out.println("Writting to: " + temp2 + ", " + temp1);
         memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp1, USER);
         if(parameters == 1){
             temp1++;
@@ -168,6 +170,7 @@ public class VirtualMachine {
             }
             System.out.println("x = " + cpu.getX());
             //cpu.setIC(cpu.getIC() + 1);
+            System.out.println("Writting to: " + temp2 + ", " + temp1);
             memory.writeToMemory(Word.intToWord(cpu.getX()), temp2, temp1, USER);
             return 2;
         }
@@ -178,6 +181,7 @@ public class VirtualMachine {
                 temp1 = temp1 % 16;
             }
             //cpu.setIC(cpu.getIC() + 1);
+            System.out.println("Writting to: " + temp2 + ", " + temp1);
             memory.writeToMemory(Word.intToWord(cpu.getX1()), temp2, temp1, USER);
             temp1++;
             if (temp1 >= 16){
@@ -185,13 +189,14 @@ public class VirtualMachine {
                 temp1 = temp1 % 16;
             }
             //cpu.setIC(cpu.getIC() + 1);
+            System.out.println("Writting to: " + temp2 + ", " + temp1);
             memory.writeToMemory(Word.intToWord(cpu.getX2()), temp2, temp1, USER);
             System.out.println("x1 = " + cpu.getX1() + " x2 = " + cpu.getX2());
             return 3;
         }
         return 1;
     }
-
+ 
     public void printRegisters(){
         System.out.println("Virtual machine registers: ");
         System.out.println("BA: " + cpu.getBA());

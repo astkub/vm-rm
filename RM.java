@@ -46,7 +46,8 @@ public class RM {
 
         try{
             BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
-            int temp = 0;
+            //int temp = 0;
+            cpu.setIC(0);
             while(fileReader.ready()){
                 cpu.setMODE(USER);
                 String currentLine = fileReader.readLine();
@@ -54,8 +55,9 @@ public class RM {
                     continue;
                 }
                 //System.out.println(currentLine);
-                virtualMachine.saveComand(currentLine, temp);
-                temp++;
+                virtualMachine.saveComand(currentLine, cpu.getIC());
+                //temp++;
+                cpu.setIC(cpu.getIC() + 1);
                 processInterrupt();
             }
             fileReader.close();

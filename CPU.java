@@ -385,7 +385,7 @@ public class CPU {
     }
     public void jm(int x1, int x2){
         System.out.println("jm(int x1 = " + x1 + ", int x2 = " + x2 + ")");
-        // TODO
+        IC = 16 * x1 + x2;
     }
 
     public int getInterrupt(){

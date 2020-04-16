@@ -285,35 +285,42 @@ public class CPU {
 
     public void add0(VirtualMachine vm){
         System.out.println("add0(VirtualMachine vm)");
+        IC++;
         vm.setBA( vm.getBA() + vm.getBB() );
     }
     public void sub0(VirtualMachine vm){
         System.out.println("sub0(VirtualMachine vm)");
+        IC++;
         vm.setBA( vm.getBA() - vm.getBB() );
     }
     public void mul0(VirtualMachine vm){
         System.out.println("mul0(VirtualMachine vm)");
+        IC++;
         vm.setBA( vm.getBA() * vm.getBB() );
     }
     public void div0(VirtualMachine vm){
         System.out.println("div0(VirtualMachine vm)");
+        IC++;
         vm.setBA( vm.getBA() * vm.getBB() );
     }
 
     public void ga(VirtualMachine vm, int x1, int x2){
         System.out.println("ga(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
+        IC++;
         Word word = memory.readFromMemory(x1, x2, USER);
         //Word word = vm.readFromMemory(x1, x2);
         vm.setBA(word.wordToInt(word));
     }
     public void gb(VirtualMachine vm, int x1, int x2){
         System.out.println("gb(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
+        IC++;
         Word word = memory.readFromMemory(x1, x2, USER);
         //Word word = vm.readFromMemory(x1, x2);
         vm.setBB(word.wordToInt(word));
     }
     public void sa(VirtualMachine vm, int x1, int x2){
         System.out.println("sa(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
+        IC++;
         int wrd = vm.getBA();
         Word word = (new Word()).intToWord(wrd);
         memory.writeToMemory(word, x1, x2, USER);
@@ -321,12 +328,14 @@ public class CPU {
     }
     public void sb(VirtualMachine vm, int x1, int x2){
         System.out.println("sb(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
+        IC++;
         int wrd = vm.getBB();
         Word word = (new Word()).intToWord(wrd);
         memory.writeToMemory(word, x1, x2, USER);
     }
     public void pr(VirtualMachine vm, int x1, int x2){
         System.out.println("pr(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
+        IC++;
         System.out.println(new Word().wordToInt(memory.readFromMemory(x1, x2, USER)));
         // TODO: SI = 2;
         // TODO: CH2 = 0;
@@ -334,6 +343,7 @@ public class CPU {
     }
     public void gd(VirtualMachine vm, int x1, int x2){
         System.out.println("gd(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
+        IC++;
         System.out.print("Input: ");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try{
@@ -356,23 +366,28 @@ public class CPU {
 
     public void dba(int x){
         System.out.println("dba(int x = " + x + ")");
+        IC++;
         // TODO
     } 
     public void uba(int x){
         System.out.println("uba(int x = " + x + ")");
+        IC++;
         // TODO
     }
     public void loc(int x){
         System.out.println("loc(int x = " + x + ")");
+        IC++;
         // TODO
     }
     public void unl(int x){
         System.out.println("unl(int x = " + x + ")");
+        IC++;
         // TODO
     }
 
     public void cmp(VirtualMachine vm){
         System.out.println("cmp(int x = " + x + ")");
+        IC++;
         if(vm.getBA() == vm.getBB())
             vm.setSF(0);
         else if(vm.getBA() > vm.getBB())
@@ -383,6 +398,7 @@ public class CPU {
 
     public void halt(){
         System.out.println("halt()");
+        IC++;
         // TODO
     }
     public void jm(int x1, int x2){

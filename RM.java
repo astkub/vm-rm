@@ -53,8 +53,8 @@ public class RM {
                     continue;
                 }
                 //System.out.println(currentLine);
-                virtualMachine.saveComand(currentLine, temp);
-                temp++;
+                int parameters = virtualMachine.saveComand(currentLine, temp);
+                temp += parameters;
                 processInterrupt();
             }
             fileReader.close();

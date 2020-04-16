@@ -123,70 +123,118 @@ public class CPU {
         return -1;
     }
 
-    public void parseCommand(String command, int commandKey){
+    public int parseCommand(String command, int commandKey){
         if(MODE == USER)
         switch (commandKey) {
             case ADD0:
                 format0(command, commandKey);
-                break;
+                return 0;
             case SUB0:
                 format0(command, commandKey);
-                break;
+                return 0;
             case MUL0:
                 format0(command, commandKey);
-                break;
+                return 0;
             case DIV0:
                 format0(command, commandKey);
-                break;
+                return 0;
             case GAx1x2:
                 format2(command);
-                break;
+                return 2;
             case GBx1x2:
                 format2(command);
-                break;
+                return 2;
             case SAx1x2:
                 format2(command);
-                break;
+                return 2;
             case SBx1x2:
                 format2(command);
-                break;
+                return 2;
             case PRx1x2:
                 format2(command);
-                break;
+                return 2;
             case GDx1x2:
                 format2(command);
-                break;
+                return 2;
             case DBAx:
                 format1(command);
-                break;
+                return 1;
             case UBAx:
                 format1(command);
-                break;
+                return 1;
             case LOCx:
                 format1(command);
-                break;
+                return 1;
             case UNLx:
                 format1(command);
-                break;
+                return 1;
             case CMP:
                 format0(command, commandKey);
-                break;
+                return 0;
             case HALT:
                 format0(command, commandKey);
-                break;
+                return 0;
             case JMx1x2:
                 format2(command);
-                break;
+                return 2;
             case 99:
                 System.out.println("START");
-                break;
+                return 0;
             case 100:
                 System.out.println("END");
-                break;
+                return 0;
             default:
                 System.out.println("Command not found. Command: " + command + " Key: " + commandKey);
                 break;
         }
+        return -1;
+    }
+    public int getParameterCount(int commandKey){
+        if(MODE == USER)
+        switch (commandKey) {
+            case ADD0:
+                return 0;
+            case SUB0:
+                return 0;
+            case MUL0:
+                return 0;
+            case DIV0:
+                return 0;
+            case GAx1x2:
+                return 2;
+            case GBx1x2:
+                return 2;
+            case SAx1x2:
+                return 2;
+            case SBx1x2:
+                return 2;
+            case PRx1x2:
+                return 2;
+            case GDx1x2:
+                return 2;
+            case DBAx:
+                return 1;
+            case UBAx:
+                return 1;
+            case LOCx:
+                return 1;
+            case UNLx:
+                return 1;
+            case CMP:
+                return 0;
+            case HALT:
+                return 0;
+            case JMx1x2:
+                return 2;
+            case 99:
+                return 0;
+            case 100:
+                return 0;
+            default:
+                System.out.println("Command not found. Key: " + commandKey);
+                break;
+        }
+        return -1;
     }
 
     public void format0(String command,  int commandKey){ // no parameters, e.g. CMP, HALT or ADD0
@@ -453,6 +501,14 @@ public class CPU {
         x1 = -1;
         x2 = -1;
     }
+
+    public void setX1(int x){this.x1 = x;}
+    public void setX2(int x){this.x2 = x;}
+    public void setX(int x){this.x = x;}
+
+    public int getX1(){return x1;}
+    public int getX2(){return x2;}
+    public int getX(){return x;}
 
     public int getCH3() {
         return CH3;

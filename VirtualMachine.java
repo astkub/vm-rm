@@ -28,6 +28,39 @@ public class VirtualMachine {
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
             //System.out.println(Word.wordToInt(command));
+            int parameters = cpu.getParameterCount(Word.wordToInt(command));
+            if(parameters == 1){
+                cpu.setIC(cpu.getIC() + 1);
+                temp = cpu.getIC();
+                if (temp >= 16){
+                    temp2 = temp / 16;
+                    temp1 = temp % 16;
+                }
+                else temp1 = temp;
+                Word x = memory.readFromMemory(temp2, temp1, USER);
+                cpu.setX( Word.wordToInt(x) );
+            }
+            else if(parameters == 2){
+                cpu.setIC(cpu.getIC() + 1);
+                temp = cpu.getIC();
+                if (temp >= 16){
+                    temp2 = temp / 16;
+                    temp1 = temp % 16;
+                }
+                else temp1 = temp;
+                Word x1 = memory.readFromMemory(temp2, temp1, USER);
+                cpu.setX1( Word.wordToInt(x1) );
+
+                cpu.setIC(cpu.getIC() + 1);
+                temp = cpu.getIC();
+                if (temp >= 16){
+                    temp2 = temp / 16;
+                    temp1 = temp % 16;
+                }
+                else temp1 = temp;
+                Word x2 = memory.readFromMemory(temp2, temp1, USER);
+                cpu.setX2( Word.wordToInt(x2) );
+            }
             cpu.callCommand(Word.wordToInt(command), this, false);
             if (temp >= 16)
             {
@@ -55,6 +88,39 @@ public class VirtualMachine {
         while(Word.wordToInt(command) != 100){
             System.out.println("Before callCommand");
             System.out.println(Word.wordToInt(command));
+            int parameters = cpu.getParameterCount(Word.wordToInt(command));
+            if(parameters == 1){
+                cpu.setIC(cpu.getIC() + 1);
+                temp = cpu.getIC();
+                if (temp >= 16){
+                    temp2 = temp / 16;
+                    temp1 = temp % 16;
+                }
+                else temp1 = temp;
+                Word x = memory.readFromMemory(temp2, temp1, USER);
+                cpu.setX( Word.wordToInt(x) );
+            }
+            else if(parameters == 2){
+                cpu.setIC(cpu.getIC() + 1);
+                temp = cpu.getIC();
+                if (temp >= 16){
+                    temp2 = temp / 16;
+                    temp1 = temp % 16;
+                }
+                else temp1 = temp;
+                Word x1 = memory.readFromMemory(temp2, temp1, USER);
+                cpu.setX1( Word.wordToInt(x1) );
+
+                cpu.setIC(cpu.getIC() + 1);
+                temp = cpu.getIC();
+                if (temp >= 16){
+                    temp2 = temp / 16;
+                    temp1 = temp % 16;
+                }
+                else temp1 = temp;
+                Word x2 = memory.readFromMemory(temp2, temp1, USER);
+                cpu.setX2( Word.wordToInt(x2) );
+            }
             cpu.callCommand(Word.wordToInt(command), this, true);
             temp = cpu.getIC();
             System.out.println("Testing IC:" + cpu.getIC());
@@ -85,16 +151,42 @@ public class VirtualMachine {
         cpu.setMODE(SUPERVISOR);
     }
 
-    public void saveComand(String command, int temp1){
+    public int saveComand(String command, int temp1){
         int commandKey = cpu.findCommand(command);
-        cpu.parseCommand(command, commandKey);
+        int parameters = cpu.parseCommand(command, commandKey);
         int temp2 = 0;
-        if (temp1 >= 16)
-            {
+        if (temp1 >= 16){
+            temp2 = temp1 / 16;
+            temp1 = temp1 % 16;
+        }
+        memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp1, USER);
+        if(parameters == 1){
+            temp1++;
+            if (temp1 >= 16){
                 temp2 = temp1 / 16;
                 temp1 = temp1 % 16;
             }
-        memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp1, USER);
+            System.out.println("x = " + cpu.getX());
+            memory.writeToMemory(Word.intToWord(cpu.getX()), temp2, temp1, USER);
+            return 2;
+        }
+        else if(parameters == 2){
+            temp1++;
+            if (temp1 >= 16){
+                temp2 = temp1 / 16;
+                temp1 = temp1 % 16;
+            }
+            memory.writeToMemory(Word.intToWord(cpu.getX1()), temp2, temp1, USER);
+            temp1++;
+            if (temp1 >= 16){
+                temp2 = temp1 / 16;
+                temp1 = temp1 % 16;
+            }
+            memory.writeToMemory(Word.intToWord(cpu.getX2()), temp2, temp1, USER);
+            System.out.println("x1 = " + cpu.getX1() + " x2 = " + cpu.getX2());
+            return 3;
+        }
+        return 1;
     }
 
     public void printRegisters(){

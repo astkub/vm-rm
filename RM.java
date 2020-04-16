@@ -67,6 +67,35 @@ public class RM {
         virtualMachine.excecuteCommand();
         cpu.setMODE(SUPERVISOR);
         //printVMMemory();
+    }
+
+    public void debugProgram(String fileName){
+        VirtualMachine virtualMachine = new VirtualMachine(memory, cpu, (workingVMs));
+        workingVMs++;
+
+        try{
+            BufferedReader fileReader = new BufferedReader(new FileReader(fileName));
+            int temp = 0;
+            while(fileReader.ready()){
+                cpu.setMODE(USER);
+                String currentLine = fileReader.readLine();
+                if(currentLine.isEmpty()){
+                    continue;
+                }
+                //System.out.println(currentLine);
+                virtualMachine.saveComand(currentLine, temp);
+                temp++;
+                processInterrupt();
+            }
+            fileReader.close();
+        } catch (IOException e) {
+            System.out.println("BufferedReader exception.");
+            e.printStackTrace();
+        }
+        //printVMMemory();
+        virtualMachine.excecuteDebugCommand();
+        cpu.setMODE(SUPERVISOR);
+        //printVMMemory();
 
     }
 

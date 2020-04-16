@@ -215,7 +215,7 @@ public class CPU {
         x2 = Integer.parseInt(tmp2);
     }
 
-    public void callCommand(int key, VirtualMachine vm){
+    public void callCommand(int key, VirtualMachine vm, boolean debug){
         if(MODE == USER)
         switch (key) {
             case ADD0:
@@ -277,6 +277,8 @@ public class CPU {
                 System.out.println("Command not found. Key: " + key);
                 break;
         }
+        if(debug)
+            printRegisters();
     }
 
     public void add0(VirtualMachine vm){
@@ -300,25 +302,25 @@ public class CPU {
         System.out.println("ga(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         Word word = memory.readFromMemory(x1, x2, USER);
         //Word word = vm.readFromMemory(x1, x2);
-        vm.setBA(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
+        vm.setBA(word.wordToInt(word));
     }
     public void gb(VirtualMachine vm, int x1, int x2){
         System.out.println("gb(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         Word word = memory.readFromMemory(x1, x2, USER);
         //Word word = vm.readFromMemory(x1, x2);
-        vm.setBB(word.wordToInt(word)); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
+        vm.setBB(word.wordToInt(word));
     }
     public void sa(VirtualMachine vm, int x1, int x2){
         System.out.println("sa(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         int wrd = vm.getBA();
-        Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
+        Word word = (new Word()).intToWord(wrd);
         memory.writeToMemory(word, x1, x2, USER);
         
     }
     public void sb(VirtualMachine vm, int x1, int x2){
         System.out.println("sb(VirtualMachine vm, int x1 = " + x1 + ", int x2 = " + x2 + ")");
         int wrd = vm.getBB();
-        Word word = (new Word()).intToWord(wrd); // TODO: patikrint ar gerai konvertina ir ar tikrai ten reikia static?
+        Word word = (new Word()).intToWord(wrd);
         memory.writeToMemory(word, x1, x2, USER);
     }
     public void pr(VirtualMachine vm, int x1, int x2){
@@ -350,19 +352,19 @@ public class CPU {
         }
     }
 
-    public void dba(int x){ // TODO: add to callCommand
+    public void dba(int x){
         System.out.println("dba(int x = " + x + ")");
         // TODO
     } 
-    public void uba(int x){ // TODO: add to callCommand
+    public void uba(int x){
         System.out.println("uba(int x = " + x + ")");
         // TODO
     }
-    public void loc(int x){ // TODO: add to callCommand
+    public void loc(int x){
         System.out.println("loc(int x = " + x + ")");
         // TODO
     }
-    public void unl(int x){ // TODO: add to callCommand
+    public void unl(int x){
         System.out.println("unl(int x = " + x + ")");
         // TODO
     }
@@ -377,11 +379,11 @@ public class CPU {
             vm.setSF(2);
     }
 
-    public void halt(){ // TODO: add to callCommand
+    public void halt(){
         System.out.println("halt()");
         // TODO
     }
-    public void jm(int x1, int x2){ // TODO: add to callCommand
+    public void jm(int x1, int x2){
         System.out.println("jm(int x1 = " + x1 + ", int x2 = " + x2 + ")");
         // TODO
     }
@@ -402,6 +404,21 @@ public class CPU {
         }
         //if(TI == 0) return 10;
         return 0;
+    }
+
+    public void printRegisters(){
+        System.out.println("BA:" + BA);
+        System.out.println("BB:" + BB);
+        System.out.println("BC:" + BC);
+        System.out.println("IC:" + IC);
+        System.out.println("SF:" + SF);
+        System.out.println("S:" + S);
+        System.out.println("MODE:" + MODE);
+        System.out.println("PTR:" + PTR);
+        System.out.println("SPTR:" + SPTR);
+        System.out.println("TI:" + TI);
+        System.out.println("SI:" + SI);
+        System.out.println("PI:" + PI);
     }
 
     public void resetInterrupts(){

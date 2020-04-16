@@ -1,4 +1,6 @@
-
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public class VirtualMachine {
     private CPU cpu;
@@ -25,8 +27,8 @@ public class VirtualMachine {
         int temp1 = 0;
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
-            System.out.println(Word.wordToInt(command));
-            cpu.callCommand(Word.wordToInt(command), this);
+            //System.out.println(Word.wordToInt(command));
+            cpu.callCommand(Word.wordToInt(command), this, false);
             if (temp >= 16)
             {
                 temp2 = temp / 16;
@@ -38,7 +40,39 @@ public class VirtualMachine {
             command = memory.readFromMemory(temp2, temp1, USER);
             temp++;
         }
-        cpu.callCommand(Word.wordToInt(command), this);
+        cpu.callCommand(Word.wordToInt(command), this, false);
+        cpu.setMODE(SUPERVISOR);
+    }
+
+    public void excecuteDebugCommand(){  
+        System.out.println("Executing");
+        cpu.setMODE(USER);
+        Word command = memory.readFromMemory(0, 0, USER);
+        int temp = 0;
+        int temp1 = 0;
+        int temp2 = 0;
+        while(Word.wordToInt(command) != 100){
+            //System.out.println(Word.wordToInt(command));
+            cpu.callCommand(Word.wordToInt(command), this, true);
+            //memory.printMemory(); // TODO: pridek vm atmintes spausdinima
+            if (temp >= 16)
+            {
+                temp2 = temp / 16;
+                temp1 = temp % 16;
+            }
+            else temp1 = temp;
+            
+            //System.out.println("Reading from: " + temp2 + ", " + temp1);
+            command = memory.readFromMemory(temp2, temp1, USER);
+            temp++;
+            try {
+                new BufferedReader(new InputStreamReader(System.in)).readLine();
+            } catch (IOException e) {
+                System.out.println("BufferedReader exception.");
+                e.printStackTrace();
+            }
+        }
+        cpu.callCommand(Word.wordToInt(command), this, true);
         cpu.setMODE(SUPERVISOR);
     }
 
@@ -54,6 +88,14 @@ public class VirtualMachine {
         memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp1, USER);
         //System.out.println("Writing to: " + temp2 + ", " + temp1);
         cpu.setIC(cpu.getIC() + 1);
+    }
+
+    public void printRegisters(){
+        System.out.println("Virtual machine registers: ");
+        System.out.println("BA: " + cpu.getBA());
+        System.out.println("BB: " + cpu.getBB());
+        System.out.println("IC: " + cpu.getIC());
+        System.out.println("SF: " + cpu.getSF());
     }
 
     public int getSF() {

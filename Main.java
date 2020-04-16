@@ -12,7 +12,7 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while(true){
             System.out.println("=====================================");
-            System.out.println("Possible commands:\nload [file_name]\nprint memory\nprint memory table\nquit\nprint VM memory");
+            System.out.println("Possible commands:\nload [file_name]\ndebug [file_name]\nprint memory\nprint VM memory\nprint memory table\nquit");
             System.out.println("=====================================");
             try {
                 String command = reader.readLine();
@@ -20,7 +20,10 @@ public class Main {
                 if(command.startsWith("load")){
                     String fileName = command.substring(5).trim();
                     rm.loadProgram(fileName);
-                    // TODO: sukurti klase ir perkelti failo skaityma i ja
+                }
+                else if(command.startsWith("debug")){
+                    String fileName = command.substring(5).trim();
+                    rm.debugProgram(fileName);
                 }
                 else if(command.startsWith("print memory table")){
                     rm.printMemoryTable();

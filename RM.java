@@ -21,8 +21,6 @@ public class RM {
 
     public RM() {
         cpu = new CPU();
-        int ptr = 4 * 16;
-        cpu.setPTR(ptr);
         cpu.setMODE(SUPERVISOR);
         memory = new Memory(cpu);
         cpu.setMemory(memory);

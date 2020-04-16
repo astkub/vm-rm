@@ -23,7 +23,7 @@ public class VirtualMachine {
         System.out.println("Executing");
         cpu.setMODE(USER);
         Word command = memory.readFromMemory(0, 0, USER);
-        int temp = 0;
+        int temp = cpu.getIC();
         int temp1 = 0;
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
@@ -38,7 +38,7 @@ public class VirtualMachine {
             
             //System.out.println("Reading from: " + temp2 + ", " + temp1);
             command = memory.readFromMemory(temp2, temp1, USER);
-            temp++;
+            temp = cpu.getIC();
         }
         cpu.callCommand(Word.wordToInt(command), this, false);
         cpu.setMODE(SUPERVISOR);
@@ -48,7 +48,7 @@ public class VirtualMachine {
         System.out.println("Executing");
         cpu.setMODE(USER);
         Word command = memory.readFromMemory(0, 0, USER);
-        int temp = 0;
+        int temp = cpu.getIC();
         int temp1 = 0;
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
@@ -64,7 +64,7 @@ public class VirtualMachine {
             
             //System.out.println("Reading from: " + temp2 + ", " + temp1);
             command = memory.readFromMemory(temp2, temp1, USER);
-            temp++;
+            temp = cpu.getIC();
             try {
                 new BufferedReader(new InputStreamReader(System.in)).readLine();
             } catch (IOException e) {
@@ -86,8 +86,6 @@ public class VirtualMachine {
                 temp1 = temp1 % 16;
             }
         memory.writeToMemory(new Word().intToWord(commandKey), temp2, temp1, USER);
-        //System.out.println("Writing to: " + temp2 + ", " + temp1);
-        cpu.setIC(cpu.getIC() + 1);
     }
 
     public void printRegisters(){

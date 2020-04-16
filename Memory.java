@@ -18,6 +18,10 @@ public class Memory{
     
     public Memory(CPU cpu){
         this.cpu = cpu;
+        int ptr = 4 * 16;
+        cpu.setPTR(ptr);
+        int sptr = userMemorySize;
+        cpu.setSPTR(sptr);
         memory = new Word[userMemorySize + externalMemorySize];
         for (int i = 0; i < userMemorySize + externalMemorySize; i++){
             memory[i] = new Word();

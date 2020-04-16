@@ -79,6 +79,8 @@ public class CPU {
         CH2 = 1;
         CH3 = 1;//TODO add more
 
+        IC = 0;
+
         commandsHashMap.put(ADD0, "ADD0");
         commandsHashMap.put(SUB0, "SUB0");
         commandsHashMap.put(MUL0, "MUL0");

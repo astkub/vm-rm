@@ -270,6 +270,7 @@ public class CPU {
                 jm(x1, x2);
                 break;
             case 99: //START
+                IC++;
                 break;
             case 100: //END
                 break;

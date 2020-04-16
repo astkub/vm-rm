@@ -54,8 +54,9 @@ public class VirtualMachine {
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
             System.out.println("Before callCommand");
-            //System.out.println(Word.wordToInt(command));
+            System.out.println(Word.wordToInt(command));
             cpu.callCommand(Word.wordToInt(command), this, true);
+            temp = cpu.getIC();
             System.out.println("Testing IC:" + cpu.getIC());
             System.out.println("After callCommand");
             memory.printVMMemory(ID);

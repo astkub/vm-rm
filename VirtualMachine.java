@@ -49,24 +49,32 @@ public class VirtualMachine {
         cpu.setMODE(USER);
         Word command = memory.readFromMemory(0, 0, USER);
         int temp = cpu.getIC();
+        System.out.println("Testing IC:" + temp);
         int temp1 = 0;
         int temp2 = 0;
         while(Word.wordToInt(command) != 100){
+            System.out.println("Before callCommand");
             //System.out.println(Word.wordToInt(command));
             cpu.callCommand(Word.wordToInt(command), this, true);
-            //memory.printMemory(); // TODO: pridek vm atmintes spausdinima
+            System.out.println("Testing IC:" + cpu.getIC());
+            System.out.println("After callCommand");
+            memory.printVMMemory(ID);
             if (temp >= 16)
             {
                 temp2 = temp / 16;
                 temp1 = temp % 16;
             }
-            else temp1 = temp;
+            else 
+            {
+                temp1 = temp;
+                temp2 = 0;
+            }
             
-            //System.out.println("Reading from: " + temp2 + ", " + temp1);
             command = memory.readFromMemory(temp2, temp1, USER);
-            temp = cpu.getIC();
             try {
+                System.out.println("Debug coffee break");
                 new BufferedReader(new InputStreamReader(System.in)).readLine();
+                temp = cpu.getIC();
             } catch (IOException e) {
                 System.out.println("BufferedReader exception.");
                 e.printStackTrace();

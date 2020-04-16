@@ -35,7 +35,7 @@ public class VirtualMachine {
             else temp1 = temp;
             
             //System.out.println("Reading from: " + temp2 + ", " + temp1);
-            command = memory.readFromMemory(temp1, temp2, USER);
+            command = memory.readFromMemory(temp2, temp1, USER);
             temp++;
         }
         cpu.callCommand(Word.wordToInt(command), this);

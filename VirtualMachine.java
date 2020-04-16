@@ -163,25 +163,28 @@ public class VirtualMachine {
         if(parameters == 1){
             temp1++;
             if (temp1 >= 16){
-                temp2 = temp1 / 16;
+                temp2 = temp2 + temp1 / 16;
                 temp1 = temp1 % 16;
             }
             System.out.println("x = " + cpu.getX());
+            //cpu.setIC(cpu.getIC() + 1);
             memory.writeToMemory(Word.intToWord(cpu.getX()), temp2, temp1, USER);
             return 2;
         }
         else if(parameters == 2){
             temp1++;
             if (temp1 >= 16){
-                temp2 = temp1 / 16;
+                temp2 = temp2 + temp1 / 16;
                 temp1 = temp1 % 16;
             }
+            //cpu.setIC(cpu.getIC() + 1);
             memory.writeToMemory(Word.intToWord(cpu.getX1()), temp2, temp1, USER);
             temp1++;
             if (temp1 >= 16){
-                temp2 = temp1 / 16;
+                temp2 = temp2 + temp1 / 16;
                 temp1 = temp1 % 16;
             }
+            //cpu.setIC(cpu.getIC() + 1);
             memory.writeToMemory(Word.intToWord(cpu.getX2()), temp2, temp1, USER);
             System.out.println("x1 = " + cpu.getX1() + " x2 = " + cpu.getX2());
             return 3;

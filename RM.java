@@ -55,6 +55,7 @@ public class RM {
                 //System.out.println(currentLine);
                 int parameters = virtualMachine.saveComand(currentLine, temp);
                 temp += parameters;
+                cpu.setIC(cpu.getIC() + parameters);
                 processInterrupt();
             }
             fileReader.close();

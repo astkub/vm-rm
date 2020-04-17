@@ -64,6 +64,26 @@ public class Memory{
     public void fillTable(){
         int ptr = cpu.getPTR();
         boolean write = false;
+
+        int first = userMemorySize - ptr;
+        memory[first] = Word.intToWord(13);
+        memory[first+1] = Word.intToWord(1);
+        memory[first+2] = Word.intToWord(20);
+        memory[first+3] = Word.intToWord(16);
+        memory[first+4] = Word.intToWord(0);
+        memory[first+5] = Word.intToWord(9);
+        memory[first+6] = Word.intToWord(40);
+        memory[first+7] = Word.intToWord(39);
+        memory[first+8] = Word.intToWord(26);
+        memory[first+9] = Word.intToWord(5);
+        memory[first+10] = Word.intToWord(8);
+        memory[first+11] = Word.intToWord(14);
+        memory[first+12] = Word.intToWord(45);
+        memory[first+13] = Word.intToWord(32);
+        memory[first+14] = Word.intToWord(17);
+        memory[first+15] = Word.intToWord(63);
+
+        /*
         for (int i = userMemorySize - ptr + 1; i < userMemorySize - ptr + 1 * BLOCKSIZE; i++){
             for (int j = 1; j < ptr; j++)
             {
@@ -82,6 +102,7 @@ public class Memory{
                 }
             }
         }
+        */
     }
 
     //kolkas ID = 0
@@ -91,8 +112,8 @@ public class Memory{
         for (int i = userMemorySize - ptr + ID * BLOCKSIZE; i < userMemorySize - ptr + (ID + 1) * BLOCKSIZE ; i++){
             int rmblock = new Word().wordToInt(memory[i]); 
             for (int j = 0; j < 16; j++){
-                if (j % 4 ==0 )
-                    System.out.println();
+               
+                  
                 System.out.print(Word.wordToInt(readFromMemory(rmblock, j, USER)) + " ");
             }
             System.out.println();
@@ -140,9 +161,14 @@ public class Memory{
 
     public void printMemory(){
         int temp = 0;
+        int block = 0;
+        System.out.print(block + ":   ");
+        block++;
         for (int i = 0; i < userMemorySize + externalMemorySize; i++){
             if (temp == 16){
-                System.out.println("\n");
+                System.out.println();
+                System.out.print(block + ":   ");
+                block++;
                 temp = 0;
             }
             temp++;

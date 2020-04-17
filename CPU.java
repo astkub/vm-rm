@@ -506,7 +506,7 @@ public class CPU {
         10 - timerio pertraukimas
         */
         int interrupt = getInterrupt();
-        while(interrupt != 0) {
+        while(getInterrupt() != 0) {
             switch (interrupt) {
                 case 1:
                     System.out.println("Out of bounds");
@@ -541,7 +541,8 @@ public class CPU {
                 default:
                     break;
             }
-            getInterrupt();
+            //getInterrupt();
+            resetInterrupts();
         }
 
     }
@@ -564,7 +565,8 @@ public class CPU {
     public void resetInterrupts(){
         PI = 0;
         SI = 0;
-        //TI = ?
+        if(TI <= 0)
+            TI = 10;
     }
 
     public String getCommandByKey(int key){

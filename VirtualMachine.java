@@ -62,6 +62,7 @@ public class VirtualMachine {
                 cpu.setX2( Word.wordToInt(x2) );
             }
             cpu.callCommand(Word.wordToInt(command), this, false);
+            cpu.processInterrupt();
             if (temp >= 16)
             {
                 temp2 = temp / 16;
@@ -122,6 +123,7 @@ public class VirtualMachine {
                 cpu.setX2( Word.wordToInt(x2) );
             }
             cpu.callCommand(Word.wordToInt(command), this, true);
+            cpu.processInterrupt();
             temp = cpu.getIC();
             //System.out.println("Testing IC:" + cpu.getIC());
             //System.out.println("After callCommand");

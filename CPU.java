@@ -51,7 +51,7 @@ public class CPU {
     private int PTR;    // TODO
     private int SPTR;   // TODO
 
-    private int TI;     // timerio pertraukimo registras // TODO
+    private int TI = 50;     // timerio pertraukimo registras // TODO
     private int SI;     // supervizoriniu pertraukimu registras
                         // 1 - komanda GD 
                         // 2 - komanda PR //TODO
@@ -268,54 +268,76 @@ public class CPU {
         switch (key) {
             case ADD0:
                 add0(vm);
+                TI--;
                 break;
             case SUB0:
                 sub0(vm);
+                TI--;
                 break;
             case MUL0:
                 mul0(vm);
+                TI--;
                 break;
             case DIV0:
                 div0(vm);
+                TI--;
                 break;
             case GAx1x2:
                 ga(vm, x1, x2);
+                TI--;
                 break;
             case GBx1x2:
                 gb(vm, x1, x2);
+                TI--;
                 break;
             case SAx1x2:
                 sa(vm, x1, x2);
+                TI--;
                 break;
             case SBx1x2:
                 sb(vm, x1, x2);
+                TI--;
                 break;
             case PRx1x2:
                 pr(vm, x1, x2);
+                SI = 2;
+                TI-=3;
                 break;
             case GDx1x2:
                 gd(vm, x1, x2);
+                SI = 1;
+                TI-=3;
                 break;
             case DBAx:
                 dba(x);
+                TI--;
                 break;
             case UBAx:
                 uba(x);
+                TI--;
                 break;
             case LOCx:
                 loc(x);
+                SI = 4;
+                TI--;
                 break;
             case UNLx:
                 unl(x);
+                SI = 5;
+                TI--;
                 break;
             case CMP:
                 cmp(vm);
+                TI--;
                 break;
             case HALT:
                 halt();
+                SI = 3;
+                TI--;
                 break;
             case JMx1x2:
                 jm(x1, x2);
+                TI--;
                 break;
             case 99: //START
                 IC++;
@@ -469,6 +491,59 @@ public class CPU {
         }
         //if(TI == 0) return 10;
         return 0;
+    }
+    public void processInterrupt(){
+        /*
+        1 - neteisingas adresas
+        2 - neteisingas operacijos kodas
+        3 - neteisingas priskyrimas
+        4 - perpildymas (overflow)
+        5 - komanda GD
+        6 - komanda PR
+        7 - komanda HALT
+        8 - komanda LOC
+        9 - komanda UNL
+        10 - timerio pertraukimas
+        */
+        int interrupt = getInterrupt();
+        while(interrupt != 0) {
+            switch (interrupt) {
+                case 1:
+                    System.out.println("Out of bounds");
+                    break;
+                case 2:
+                    System.out.println("Invalid command");
+                    break;
+                case 3:
+                    System.out.println("neteisingas priskyrimas");
+                    break;
+                case 4:
+                    System.out.println("Not enough disk space");
+                    break;
+                case 5:
+                    System.out.println("komanda GD");
+                    break;
+                case 6:
+                    System.out.println("komanda PR");
+                    break;
+                case 7:
+                    System.out.println("komanda HALT");
+                    break;
+                case 8:
+                    System.out.println("komanda LOC");
+                    break;
+                case 9:
+                    System.out.println("komanda UNL");
+                    break;
+                case 10:
+                    System.out.println("Not enough disk space");
+                    break;
+                default:
+                    break;
+            }
+            getInterrupt();
+        }
+
     }
 
     public void printRegisters(){

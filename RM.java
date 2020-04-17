@@ -55,7 +55,7 @@ public class RM {
                 //System.out.println(currentLine);
                 int parameters = virtualMachine.saveComand(currentLine, temp);
                 temp += parameters;
-                processInterrupt();
+                //processInterrupt();
             }
             fileReader.close();
         } catch (IOException e) {
@@ -85,7 +85,7 @@ public class RM {
                 //System.out.println(currentLine);
                 int parameters = virtualMachine.saveComand(currentLine, temp);
                 temp += parameters;
-                processInterrupt();
+                //processInterrupt();
             }
             fileReader.close();
         } catch (IOException e) {
@@ -99,53 +99,7 @@ public class RM {
 
     }
 
-    public void processInterrupt(){
-        /*
-        1 - neteisingas adresas
-        2 - neteisingas operacijos kodas
-        3 - neteisingas priskyrimas
-        4 - perpildymas (overflow)
-        5 - komanda GD
-        6 - komanda PR
-        7 - komanda HALT
-        8 - komanda LOC
-        9 - komanda UNL
-        10 - timerio pertraukimas
-        */
-        int interrupt = cpu.getInterrupt();
-        while(interrupt != 0) {
-            switch (interrupt) {
-                case 1:
-                    System.out.println("Out of bounds");
-                    break;
-                case 2:
-                    System.out.println("Invalid command");
-                    break;
-                case 3:
-                    
-                    break;
-                case 4:
-                    System.out.println("Not enough disk space");
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-                case 10:
-                    break;
-                default:
-                    break;
-            }
-            interrupt = cpu.getInterrupt();
-        }
-
-    }
+    
 
     public CPU getCPU() {
         return cpu;

@@ -67,7 +67,7 @@ public class RM {
         cpu.setMODE(SUPERVISOR);
         //printVMMemory();
     }
- 
+   
     public void debugProgram(String fileName){
         VirtualMachine virtualMachine = new VirtualMachine(memory, cpu, (workingVMs));
         workingVMs++;
@@ -100,7 +100,7 @@ public class RM {
     }
 
     
-
+ 
     public CPU getCPU() {
         return cpu;
     }
@@ -112,7 +112,7 @@ public class RM {
     public void printMemoryTable() {
         memory.printMemoryTable();
     }
-
+ 
     public void printVMMemory() {
         memory.printVMMemory(0);
     }

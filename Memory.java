@@ -111,10 +111,8 @@ public class Memory{
         int temp = 0;
         for (int i = userMemorySize - ptr + ID * BLOCKSIZE; i < userMemorySize - ptr + (ID + 1) * BLOCKSIZE ; i++){
             int rmblock = new Word().wordToInt(memory[i]); 
-            for (int j = 0; j < 16; j++){
-               
-                  
-                System.out.print(Word.wordToInt(readFromMemory(rmblock, j, USER)) + " ");
+            for (int j = 0; j < 16; j++){ 
+                System.out.print(Word.wordToInt(memory[rmblock*16 + j]) + " ");
             }
             System.out.println();
         }

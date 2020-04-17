@@ -138,7 +138,7 @@ public class VirtualMachine {
                 temp1 = temp;
                 temp2 = 0;
             }
-            
+             
             command = memory.readFromMemory(temp2, temp1, USER);
             try {
                 System.out.println("Debug coffee break");

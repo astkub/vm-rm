@@ -467,7 +467,7 @@ public class CPU {
             case 4: return 8;
             case 5: return 9;
         }
-        //if(TI == 0) return 10;
+        if(TI == 0) return 10;
         return 0;
     }
 

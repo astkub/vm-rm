@@ -435,21 +435,25 @@ public class CPU {
 
     public void dba(int x){
         System.out.println("dba(int x = " + x + ")");
+        BA = Word.wordToInt(memory.ReadFromSharedMemomy(x));
         IC++;
         // TODO
     } 
     public void uba(int x){
         System.out.println("uba(int x = " + x + ")");
+        memory.WriteToSharedMemomy(Word.intToWord(BA), x);
         IC++;
         // TODO
     }
     public void loc(int x){
         System.out.println("loc(int x = " + x + ")");
+        V(x);
         IC++;
         // TODO
     }
     public void unl(int x){
         System.out.println("unl(int x = " + x + ")");
+        P(x);
         IC++;
         // TODO
     }
@@ -578,6 +582,28 @@ public class CPU {
         x1 = -1;
         x2 = -1;
     }
+
+    public void V(int x){
+        int temp = Word.getFromS(S, x);
+        if (temp == 0){
+            Word.writeToS(S, x, temp + 1);
+        }
+        else{
+            System.out.println("Semaphore taken");
+            //TODO wait(); ir įdėti į ciklą
+        }
+    }
+
+    public void P(int x){
+        int temp = Word.getFromS(S, x);
+        if (temp > 0){
+            Word.writeToS(S, x, temp-1);
+        }
+        else{
+            System.out.println("Semaphore already cleared"); //TODO Šiuo atveju P(S) yra pertraukiamas
+        }
+    }
+
 
     public void setX1(int x){this.x1 = x;}
     public void setX2(int x){this.x2 = x;}

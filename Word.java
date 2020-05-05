@@ -45,6 +45,41 @@ public class Word {
         bb.position(0);
         return bb.getInt();
     }
+
+    public static int writeToS(int S, int x, int value) {
+        ByteBuffer bb = ByteBuffer.allocateDirect(8);
+        ByteBuffer aa = ByteBuffer.allocateDirect(8);
+        ByteBuffer cc = ByteBuffer.allocateDirect(8);
+        bb.order(ByteOrder.LITTLE_ENDIAN);
+        aa.order(ByteOrder.LITTLE_ENDIAN);
+        aa.order(ByteOrder.LITTLE_ENDIAN);
+        bb.clear();
+        aa.clear();
+        aa.clear();
+        bb.putInt(S);
+        if (value == 0)
+            cc.putInt(256);
+        else cc.putInt(0);
+        for(int i = 0; i < 8; i++){
+            if (i != x){
+                aa.put(bb.get(i));
+            }
+            else{
+                aa.put(cc.get(i));
+            }
+        }
+        aa.position(0);
+        return aa.getInt();
+    }
+
+    public static int getFromS(int S, int x) {
+        ByteBuffer bb = ByteBuffer.allocateDirect(8);
+        bb.order(ByteOrder.LITTLE_ENDIAN);
+        bb.clear();
+        bb.putInt(S);
+        int value = bb.get(x);
+        return value;
+    }
     
     public static Word intToWord(int value) {
         ByteBuffer bb = ByteBuffer.allocateDirect(SIZE*8);

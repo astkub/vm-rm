@@ -20,13 +20,23 @@ public class Memory{
         this.cpu = cpu;
         int ptr = 4 * 16;
         cpu.setPTR(ptr);
-        int sptr = userMemorySize;
+        int sptr = userMemorySize/BLOCKSIZE;
         cpu.setSPTR(sptr);
         memory = new Word[userMemorySize + externalMemorySize];
         for (int i = 0; i < userMemorySize + externalMemorySize; i++){
             memory[i] = new Word();
         }
         fillTable();
+    }
+
+    public void WriteToSharedMemomy(Word word, int x){
+        memory[16*cpu.getSPTR() + x] = word;
+    }
+
+    public Word ReadFromSharedMemomy(int x){
+        Word word = new Word();
+        word = memory[16*cpu.getSPTR() + x];
+        return word;
     }
 
     /*

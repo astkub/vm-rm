@@ -95,11 +95,10 @@ public class RM {
         //printVMMemory();
         virtualMachine.excecuteDebugCommand();
         cpu.setMODE(SUPERVISOR);
+        System.out.println("Mode: " + cpu.getMODE());
         //printVMMemory();
 
     }
-
-    
  
     public CPU getCPU() {
         return cpu;

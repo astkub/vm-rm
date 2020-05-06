@@ -586,7 +586,7 @@ public class CPU {
     public void V(int x){
         int temp = Word.getFromS(S, x);
         if (temp == 0){
-            Word.writeToS(S, x, temp + 1);
+            changeS(x, temp+1);
         }
         else{
             System.out.println("Semaphore taken");
@@ -597,11 +597,20 @@ public class CPU {
     public void P(int x){
         int temp = Word.getFromS(S, x);
         if (temp > 0){
-            Word.writeToS(S, x, temp-1);
+            changeS(x, temp-1);
         }
         else{
             System.out.println("Semaphore already cleared"); //TODO Šiuo atveju P(S) yra pertraukiamas
         }
+    }
+
+
+    private void changeS(int x, int value){
+        if (value == 1){
+            S = S + (int) Math.pow(2, x-1);
+        }
+        else
+            S = S - (int) Math.pow(2, x-1);
     }
 
 

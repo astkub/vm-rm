@@ -13,11 +13,10 @@ public class RM {
     private Memory memory;
     private VirtualMachine VMs[];
     private int workingVMs;
-
+ 
     // VM skiriama 16 bloku. Vartotojo atmintis:
     // [(VM 1)(VM 2)(VM 3)(VM 4)(puslapiu lentele 4 blokai) ]
     // RM skiriama 50 blokų po 16 zodziu 
-
 
     public RM() {
         cpu = new CPU();
@@ -67,7 +66,7 @@ public class RM {
         cpu.setMODE(SUPERVISOR);
         //printVMMemory();
     }
-   
+    
     public void debugProgram(String fileName){
         VirtualMachine virtualMachine = new VirtualMachine(memory, cpu, (workingVMs));
         workingVMs++;

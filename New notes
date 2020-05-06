@@ -10,6 +10,8 @@
 
 5. Atmntyje rašoma usermemory(VM vietos, memoryTable) ir tada externalMemory, išvardinta tvarka;
 
+6. Bendroji atmintis yra pirmi 8 žodžiai po userMemory;
+
 //Kaip nuspręndžiama kurie blokai duodami VM? Ar tiesiog kai prireikia VM pasiima sekantį laisvą bloką ir įsirašo į adresų lentelę?
 //Ar memory[] masyve pirma yra userMemory ar externalMemory?
 //Ar registrai turėtų būti rašomi į external memory?

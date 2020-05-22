@@ -1,8 +1,10 @@
-
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Resources{
   class MOS_pabaiga{
-    
+    Queue<Integer> queue = new LinkedList<Integer>();
+    void addToQueue(){}
   }
   class isVartotojoSasajos{
 

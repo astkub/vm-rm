@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
-
+import java.util.*; 
 import javax.lang.model.type.NullType;
 
 enum ProcessPriority{
@@ -25,16 +25,26 @@ enum ProcessState{
    READY
 }
 
-interface Process{
-   public void work();
+class Process{
+   public ProcessState state;
+   public void work() {};
    public ArrayList<Process> children = new ArrayList<Process>();
    public ArrayList<Resources> resources = new ArrayList<Resources>();
 }
 
+class ProcessComparator implements Comparator<Process>{
+   public int compare(Process s1, Process s2) { 
+      if (s1.state.ordinal() < s2.state.ordinal()) 
+         return 1; 
+      else if (s1.state.ordinal() > s2.state.ordinal()) 
+         return -1; 
+      return 0; 
+   } 
+} 
 public class Processes{
    private ArrayList<Process> runningProcesses = new ArrayList<Process>();
-   private ArrayList<Process> blokuoti = new ArrayList<Process>();
-   private ArrayList<Process> pasiruose = new ArrayList<Process>();
+   private PriorityQueue<Process> blocked = new PriorityQueue<Process>(5, new ProcessComparator());
+   private PriorityQueue<Process> ready = new PriorityQueue<Process>(5, new ProcessComparator());
    private Process einamasis;
    private int descriptorSpace = 4; //nezinau kiek kolkas
    private int[] descriptor = new int[descriptorSpace]; //dinaminis objektas //proceso aprasas //laikomi visi reikalingi parametrai kaip virtualios masinos registru reksmes ir kiti kintamieji
@@ -77,8 +87,8 @@ public class Processes{
 
       //ismetamas is bendro procesu saraso ir, jei reikia, is pasiruosusiu resursu saraso
       runningProcesses.remove(process);
-      if(pasiruose.contains(process))
-         pasiruose.remove(process);
+      if(ready.contains(process))
+         ready.remove(process);
 
       //naikinami visi jam perduoti resursai ir proceso descriptorius yra sunaikinamas
       for (int i = 0; i < process.resources.size(); i++){
@@ -112,12 +122,14 @@ public class Processes{
       //Process einamasis = process.state == RUNNING;
       if (einamasis.state == ProcessState.valueOf("RUNNING")){
           einamasis.state = ProcessState.valueOf("BLOCKED");
-          blokuoti.add(einamasis);
+          blocked.add(einamasis);
       }
-      else if (!pasiruose.isEmpty()){
-            einamasis = pasiruose.get(0);
-            pasiruose.remove(einamasis);
-            pasiruose.state = ProcessState.valueOf("RUNNING");
+      else if (!ready.isEmpty()){
+         einamasis = ready.poll(); // Retrieves and removes the head of this queue, or returns null if this queue is empty.
+            //einamasis = ready.get(0);
+            //ready.remove(einamasis);
+
+            ready.state = ProcessState.valueOf("RUNNING"); // wtf is this? ready is list, not process
       //    pasiruose.give(processor);
       //    pasiruose.work();//?
       }
@@ -172,7 +184,7 @@ public class Processes{
       planner();    
    }
 
-   class StartStop implements Process{
+   class StartStop extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -187,7 +199,7 @@ public class Processes{
       }
    }
 
-   class ReadFromInterface implements Process{
+   class ReadFromInterface extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -200,7 +212,7 @@ public class Processes{
       }
    }
 
-   class MainProc implements Process{
+   class MainProc extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -212,7 +224,7 @@ public class Processes{
       }
    }
 
-   class JobGovernor implements Process{
+   class JobGovernor extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -233,7 +245,7 @@ public class Processes{
       }
    }
 
-   class VirtualMachine implements Process{
+   class VirtualMachine extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -244,7 +256,7 @@ public class Processes{
       }
    }
 
-   class Interrupt implements Process{
+   class Interrupt extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -258,7 +270,7 @@ public class Processes{
       }
    }
 
-   class PrintLine implements Process{
+   class PrintLine extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -272,7 +284,7 @@ public class Processes{
       }
    }
 
-   class GetLine implements Process{
+   class GetLine extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -285,7 +297,7 @@ public class Processes{
       }
    }
 
-   class Loader implements Process{
+   class Loader extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -298,7 +310,7 @@ public class Processes{
       }
    }
 
-   class WriteToMemory implements Process{
+   class WriteToMemory extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){
@@ -309,7 +321,7 @@ public class Processes{
       }
    }
 
-   class MemoryGovernor implements Process{
+   class MemoryGovernor extends Process{
       public ProcessPriority priority;
       public ProcessState state;
       public void work(){

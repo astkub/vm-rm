@@ -29,7 +29,7 @@ class Process{
    public ProcessState state;
    public void work() {};
    public ArrayList<Process> children = new ArrayList<Process>();
-   public ArrayList<Resources> resources = new ArrayList<Resources>();
+   public ArrayList<Resource> resources = new ArrayList<Resource>();
 }
 
 class ProcessComparator implements Comparator<Process>{
@@ -148,7 +148,7 @@ public class Processes{
       //sukuriamas laukianciuju procesu sarasas
    }
 
-   public void destroyResoucse(Resources resource){
+   public void destroyResoucse(Resource resource){
       //deskriptorius ismetamas is tevo sukurtu resursu saraso
       //naikinamas jo elementu sarsas
       //atblokuojami procesai laukiantys sio resurso
@@ -157,11 +157,11 @@ public class Processes{
 
    }
 
-   public void askForResource(Process self, Resources resource){
+   public void askForResource(Process self, Resource resource){
       //blokuojamas procesas iskvietes si primityva
       self.state = ProcessState.valueOf("BLOCKED");
       //ir itraukiamas i laukianciuju sarasa
-      resource.waitList(self);
+      resource.addToQueue(self);
       resourcesDistributor();
    }
 

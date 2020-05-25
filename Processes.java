@@ -147,12 +147,15 @@ public class Processes{
 
    public void askForResource(Process self, Resources resource){
       //blokuojamas procesas iskvietes si primityva
+      self.state = ProcessState.valueOf("BLOCKED");
       //ir itraukiamas i laukianciuju sarasa
+      resource.waitList(self);
       resourcesDistributor();
    }
 
-   public void alocateResource(Resources element){
+   public void alocateResource(Resources resource, Resources element){
       //element pridedamas prie resurso elementu saraso;
+      resource.elements(element);
       resourcesDistributor();
    }
 
@@ -172,66 +175,150 @@ public class Processes{
    class StartStop implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //gaves procesoriu sukuria visus sisteminius resursus
+         //sukuria sisteminius procesus
+         //createProcess(self, ProcessState.valueOf("BLOCKED"), priority, elements, class_name); reikalingas visiems
+         //Prašo "MOS pabaiga resurso" - blokuojasi ir laukia kol bus atlaisvintas pranesimas apie MOS pabaiga
+         //askForResource(Process, resource)
+         //visu procesoriu naikinimas
+         //sisteminiu resursu naikinimas
+         //MOS darbo pabaiga
+      }
    }
 
    class ReadFromInterface implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //laukiama resurso "is vartotojo sasajos"
+         //laukiama resurso "isGetLine"
+         //Loader perduodamas resursas "duomenu vieta" su rogramos vieta
+         //Laukiama kol Loader nuskaitys ir irasys programa i supervizorine atminti
+         //atlaisvinamas "uzduotis supervizorineje atmintyje" resursas
+         //atlaisvinus resursa ReadFromInterfase uzsiblokuoja
+      }
    }
 
    class MainProc implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //Parasoma "uzduotis supervizorineje atmintyje" resurso, kuris yra atlaisvinamas proceso ReadFromInterface
+         //Tikrinamas MainProc vykdymo laikas
+         //jei 0, kuriamas procesas WriteToMemory ir JobGovernor
+         //jei ne 0, JobGovernor yra naikinamas
+         //blokuojasi laukdamas "Uzduotis supervizorineje atmintyje"
+      }
    }
 
    class JobGovernor implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //praso vartotojo atminties, kad patalpinti vartotojo uzduoties programa
+         //laukiama kol vartotojo programa bus irasyta i vartotojo atminti
+         //puslapiu lentele yra sukuriama ir uzpildoma išskirtos vartotojo atminties adresais
+         //kuriamas procesas MemoryGovernor
+         //kuriamas procesas VirtualMachine
+         //blokuojasi ir laukia pertraukimo proceso
+            //jei pertraukimas GD ivesties, procesui GetLine atlaisvinamas "Laukti ivedimo" resursas
+            //jei ne GD, procesui PrintLine atlaisvinamas "Eilute atmintyje" resursas
+            //jei semaforo, atlaisvinamas "Semaforas" resursas konkreciai VM
+            //Laukiama resurso is MemoryGovernor proceso
+               //Jei pertraukimas nei ivedimo nei isvedimo, nei semaforo, VM procesas naikinamas
+               //Atlaisvinama VM uzimta atmintis
+               //Kol nesunaikintas blokuojasi, kaukiant "Neegzistuojantis resursas"
+         //procesas VM aktivuojamas atlaisvinant "Continue" resursa ir JG cikliskai grizta blokuotis
+      }
    }
 
    class VirtualMachine implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //vartotojo programa vykdoma vartotojo rezime iki pertraukimo
+         //ivykus pertraukimui, VM issaugo savo procesoriaus busena valdymas perduodamas pertraukima apdorosiancioms programoms (Interrupt)
+         //kuriamas "Interrupt" resursas, kuris identifikuos pertraukima ir perduos informacija JG
+         //Laukia kol gales testi darba
+      }
    }
 
-   class Interupt implements Process{
+   class Interrupt implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //kartu su pranesimuapie pertraukima yra perduodamas ir tevo identifikatorius, kuri procesas Interrupt naudoja JG atskyrimui is kitu
+         //Procesas laukia "Interrupt" resurso, kuri  siuncia procesas VM
+         //Nustatomas pertraukimo tipas perziurint sisteminiu kintamuju reiksmes
+         //Nustatomas JG
+         //kuriamas ir atlaisvinamas "isInterupt" resursas, skirtas nustatytas JG procesoriui
+         //cikliskai blokuojasi laukdamas "Interrupt" resurso
+         
+      }
    }
 
    class PrintLine implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //blokuojasi laukdamas "Eilute atmintyje" resurso, kur gauna parametra is kurios atminties reikes pasiusti eilute i isvedimo
+         //srauta ir atminties adresa, zyminti bloko numeri
+         //blokuojasi laukdamas leidimo dirbti su kanalu "CH2"
+         //nustatoma "CH2" reiksme, agal tai ar ivyko isvedimas
+         //atlaisvinamas "Kanalas2" resursas
+         //sukuriamas ir atlaisvinamas "isPrintLine" resursas
+         //cikliskai blokuojasi laukdamas "Eilute atmintyje" resurso
+      }
    }
 
    class GetLine implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //Blokuojasi laukdamas "Laukti ivedimo" resurso, kuris turi parametra i kuri bloka rasyti gautus duomenis
+         //Blokuojasi laukdamas leidimo sirbti su kanalu "CH1"
+         //Nustatoma "CH1" reiksme, pagal ar pavyko nuskaityti
+         //atlaisvinamas "Kanalas1" resursas;
+         //Sukuriamas ir atlaisvinamas "isGetLine" resursas
+         //blokuojasi laukiant "Laukti ivedimo"
+      }
    }
 
    class Loader implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //blokuojasi laukdamas "Laukti ivedimo" resurso, kuris turi parametra i kuri bloka rasyti gautus duomenis
+         //Blokuojasi laukdamas leidimo sirbti su kanalu "CH3"
+         //Nustatoma "CH3" reiksme, pagal ar pavyko nuskaityti
+         //atlaisvinamas "Kanalas3" resursas;
+         //Sukuriamas ir atlaisvinamas "isLoader" resursas
+         //blokuojasi laukiant "Laukti ivedimo"
+      }
    }
 
    class WriteToMemory implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}
+      public void work(){
+         //Blokuojasi laukiant "Uzduotis supervizorineje atmintyje"
+         //Sintakses paskirstymas
+         //Programa irasoma i vartotojo atminti
+         //Atlaisvinamas "Irasyta i atminti" resursas
+      }
    }
 
    class MemoryGovernor implements Process{
       public ProcessPriority priority;
       public ProcessState state;
-      public void work(){}  
+      public void work(){
+         //cikliskai blokuojasi laukiant "Semaforas" resurso
+         //Veiksmai su duomenimis
+            //Vykdomas nuskaitymas
+            //vykdomas irasymas
+         //Atlaisvinama nustatyta bendros atminties sritis
+         //sukuriamas ir atlaisvinams resursas "IsMemoryGovernor" 
+      }  
    }
 }

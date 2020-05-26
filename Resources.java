@@ -9,45 +9,44 @@ class Resource{
    
 }
 public class Resources{
-  class MOS_pabaiga{
-  }
-  class isVartotojoSasajos{
-  }
-  class isGetLine{
-  }
-  class duomenu_vieta{
-  }
-  class isLoader{
-  }
-  class uzduotis_supervizorineje_atmintyje{
-  }
-  class irasyta_i_atminti{
-  }
-  class vartotojo_atmintis{
-  }
-  class isInterrupt{
-  }
-  class laukti_ivedimo{
-  }
-  class eilute_atmintyje{
-  }
-  class isPrintLine{
-  }
-  class semaforas{
-  }
-  class isMemoryGovernor{
-  }
-  /*class neegzistuojantis_resursas{
-
-  }*/
-  class continuee{
-  }
-  class interrupt{
-  }
-  class kanalas_1{
-  }
-  class kanalas_2{
-  }
-  class kanalas_3{
-  }
+   MOS_pabaiga mos_pabaiga;
+   IsVartotojoSasajos isVartotojoSasajos;
+   IsGetLine isGetLine;
+   Duomenu_vieta duomenu_vieta;
+   IsLoader isLoader;
+   Uzduotis_supervizorineje_atmintyje uzduotis_supervizorineje_atmintyje;
+   Irasyta_i_atminti irasyta_i_atminti;
+   Vartotojo_atmintis vartotojo_atmintis;
+   IsInterrupt isInterrupt;
+   Laukti_ivedimo laukti_ivedimo;
+   Eilute_atmintyje eilute_atmintyje;
+   IsPrintLine isPrintLine;
+   Semaforas semaforas;
+   IsMemoryGovernor isMemoryGovernor;
+   Continuee continuee;
+   Interrupt interrupt;
+   Kanalas_1 kanalas_1;
+   Kanalas_2 kanalas_2;
+   Kanalas_3 kanalas_3;
+   //Negzistuojantis_resursas neegzistuojantis_resursas;
+   class MOS_pabaiga extends Resource{}
+   class IsVartotojoSasajos extends Resource{}
+   class IsGetLine extends Resource{}
+   class Duomenu_vieta extends Resource{}
+   class IsLoader extends Resource{}
+   class Uzduotis_supervizorineje_atmintyje extends Resource{}
+   class Irasyta_i_atminti extends Resource{}
+   class Vartotojo_atmintis extends Resource{}
+   class IsInterrupt extends Resource{}
+   class Laukti_ivedimo extends Resource{}
+   class Eilute_atmintyje extends Resource{}
+   class IsPrintLine extends Resource{}
+   class Semaforas extends Resource{}
+   class IsMemoryGovernor extends Resource{}
+   /*class Neegzistuojantis_resursas extends Resource{}*/
+   class Continuee extends Resource{}
+   class Interrupt extends Resource{}
+   class Kanalas_1 extends Resource{}
+   class Kanalas_2 extends Resource{}
+   class Kanalas_3 extends Resource{}
 }
